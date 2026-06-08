@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odatlarim PRO</title>
+    <title>Odatlarim PRO - Dashboard</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -11,13 +11,13 @@
             --panel-bg: rgba(255, 255, 255, 0.04);
             --panel-border: rgba(255, 255, 255, 0.08);
             --accent-neon: #7fff00;
-            --accent-dimmed: #4ca600;
             --text-main: #ffffff;
             --text-muted: #8e99a7;
+            --danger: #ff4d4d;
         }
 
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-main);
             margin: 0;
@@ -31,16 +31,14 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             width: 100%;
         }
 
         .header h1 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
-            letter-spacing: 1px;
             margin: 0;
-            text-transform: uppercase;
         }
 
         .header h1 span {
@@ -50,19 +48,20 @@
 
         .header p {
             color: var(--text-muted);
-            font-size: 13px;
-            margin: 5px 0 0 0;
+            font-size: 11px;
+            margin: 3px 0 0 0;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
+        /* STATISTIKA PANEL */
         .stats-panel {
             width: 100%;
             max-width: 380px;
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             border-radius: 16px;
-            padding: 14px;
+            padding: 15px;
             box-sizing: border-box;
             display: flex;
             justify-content: space-around;
@@ -75,7 +74,7 @@
         }
 
         .stat-val {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             color: var(--accent-neon);
         }
@@ -86,6 +85,47 @@
             margin-top: 2px;
         }
 
+        /* REJA VA ODUT QO'SHISH SHAKLI */
+        .add-habit-box {
+            width: 100%;
+            max-width: 380px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 12px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .add-habit-box input, .add-habit-box button {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .add-habit-box input[type="text"] {
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+        }
+
+        .add-habit-box input[type="time"] {
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+        }
+
+        .add-btn {
+            background: var(--accent-neon);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: none !important;
+        }
+
         .section-title {
             width: 100%;
             max-width: 380px;
@@ -94,67 +134,74 @@
             letter-spacing: 1px;
             color: var(--text-muted);
             margin-bottom: 10px;
-            padding-left: 5px;
+            display: flex;
+            justify-content: space-between;
         }
 
+        /* ODUTLAR RO'YXATI */
         .habit-list {
             width: 100%;
             max-width: 380px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .habit-card {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 14px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
         }
 
         .habit-info {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
 
         .habit-name {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
         }
 
         .habit-meta {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
         }
 
-        .habit-action-btn {
+        .actions-div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn {
             background: transparent;
-            border: 2px solid var(--accent-neon);
+            border: 1.5px solid var(--accent-neon);
             color: var(--accent-neon);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 10px rgba(127, 255, 0, 0.1);
         }
 
-        .habit-action-btn:active {
-            transform: scale(0.95);
-        }
-
-        .habit-action-btn.done {
+        .action-btn.done {
             background: var(--accent-neon);
-            color: #000000;
-            box-shadow: 0 0 15px var(--accent-neon);
+            color: #000;
+        }
+
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: var(--danger);
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -162,74 +209,155 @@
 
     <div class="header">
         <h1 id="user-title">ODATLARIM <span>PRO</span></h1>
-        <p>Intizom & O'sish</p>
+        <p id="current-date">Sana: --.--.----</p>
     </div>
 
     <div class="stats-panel">
         <div class="stat-box">
-            <div class="stat-val">100%</div>
-            <div class="stat-lbl">Fokus</div>
+            <div class="stat-val" id="total-val">0</div>
+            <div class="stat-lbl">Odatlar soni</div>
         </div>
         <div class="stat-box">
-            <div class="stat-val" id="streak-val">🔥 1</div>
-            <div class="stat-lbl">Kunlik Streak</div>
+            <div class="stat-val" id="done-val">0</div>
+            <div class="stat-lbl">Bajarildi</div>
         </div>
         <div class="stat-box">
-            <div class="stat-val">3 / 3</div>
-            <div class="stat-lbl">Maqsadlar</div>
+            <div class="stat-val" id="percent-val">0%</div>
+            <div class="stat-lbl">Kunlik Foiz</div>
         </div>
     </div>
 
-    <div class="section-title">Odatlar ro'yxati</div>
-
-    <div class="habit-list">
-        <div class="habit-card">
-            <div class="habit-info">
-                <span class="habit-name">📚 Kitob o'qish</span>
-                <span class="habit-meta">Har kuni · 30 daqiqa</span>
-            </div>
-            <button class="habit-action-btn" onclick="triggerHabit('Kitob o\'qish', this)">Bajarish</button>
-        </div>
-
-        <div class="habit-card">
-            <div class="habit-info">
-                <span class="habit-name">🏃‍♂️ Sport / Yugurish</span>
-                <span class="habit-meta">Har kuni · 45 daqiqa</span>
-            </div>
-            <button class="habit-action-btn" onclick="triggerHabit('Sport / Yugurish', this)">Bajarish</button>
-        </div>
-
-        <div class="habit-card">
-            <div class="habit-info">
-                <span class="habit-name">💧 Suv ichish</span>
-                <span class="habit-meta">Kun davomida · 2 Litr</span>
-            </div>
-            <button class="habit-action-btn" onclick="triggerHabit('Suv ichish', this)">Bajarish</button>
+    <div class="add-habit-box">
+        <input type="text" id="habit-input" placeholder="Odat nomini yozing... (masalan: Kitob o'qish)">
+        <div style="display: flex; gap: 8px;">
+            <input type="time" id="habit-time" style="flex: 1;" value="08:00">
+            <button class="add-btn" onclick="addHabit()" style="flex: 1;">Odat Qo'shish +</button>
         </div>
     </div>
+
+    <div class="section-title">
+        <span>Bugungi Rejalar</span>
+        <span style="color: var(--accent-neon);" id="list-status">0/0</span>
+    </div>
+
+    <div class="habit-list" id="habits-container"></div>
 
     <script>
         const telegram = window.Telegram.WebApp;
         telegram.expand();
         telegram.ready();
 
+        // Sanani chiqarish
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('uz-UZ', options);
+
         if (telegram.initDataUnsafe && telegram.initDataUnsafe.user) {
-            const firstName = telegram.initDataUnsafe.user.first_name;
-            document.getElementById('user-title').innerHTML = `${firstName.toUpperCase()} <span>PRO</span>`;
+            document.getElementById('user-title').innerHTML = `${telegram.initDataUnsafe.user.first_name.toUpperCase()} <span>PRO</span>`;
         }
 
-        function triggerHabit(name, element) {
-            if (element.classList.contains('done')) return;
+        // LocalStorage dan ma'lumotlarni yuklash yoki boshlang'ich qiymat berish
+        let habits = JSON.parse(localStorage.getItem('user_habits')) || [
+            { id: 1, name: "📚 Kitob o'qish", time: "08:00", done: false },
+            { id: 2, name: "🏃‍♂️ Sport bilan shug'ullanish", time: "17:30", done: false },
+            { id: 3, name: "💧 2 Litr suv ichish", time: "12:00", done: false }
+        ];
 
-            element.innerText = "✓ OK";
-            element.classList.add('done');
-
-            // Ma'lumotni to'g'ridan-to'g'ri xavfsiz kanallar orqali bot kodingizga uzatish
-            setTimeout(() => {
-                telegram.sendData(name);
-                telegram.close();
-            }, 600);
+        // Sanani tekshirish (Har yangi kun kelganda odatlar statusini reset qilish)
+        const lastSavedDate = localStorage.getItem('last_saved_date');
+        const todayStr = new Date().toDateString();
+        if (lastSavedDate !== todayStr) {
+            habits.forEach(h => h.done = false);
+            localStorage.setItem('last_saved_date', todayStr);
+            localStorage.setItem('user_habits', JSON.stringify(habits));
         }
+
+        function saveAndRender() {
+            localStorage.setItem('user_habits', JSON.stringify(habits));
+            renderHabits();
+        }
+
+        function renderHabits() {
+            const container = document.getElementById('habits-container');
+            container.innerHTML = '';
+            
+            let doneCount = 0;
+            habits.forEach(habit => {
+                if(habit.done) doneCount++;
+
+                const card = document.createElement('div');
+                card.className = 'habit-card';
+                card.innerHTML = `
+                    <div class="habit-info">
+                        <span class="habit-name">${habit.name}</span>
+                        <span class="habit-meta">⏰ Reja vaqti: ${habit.time}</span>
+                    </div>
+                    <div class="actions-div">
+                        <button class="action-btn ${habit.done ? 'done' : ''}" onclick="toggleHabit(${habit.id})">
+                            ${habit.done ? '✓ Bajarildi' : 'Bajarish'}
+                        </button>
+                        <button class="delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Statistikani hisoblash
+            const totalCount = habits.length;
+            const percent = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+
+            document.getElementById('total-val').innerText = totalCount;
+            document.getElementById('done-val').innerText = doneCount;
+            document.getElementById('percent-val').innerText = percent + "%";
+            document.getElementById('list-status').innerText = `${doneCount}/${totalCount}`;
+        }
+
+        function addHabit() {
+            const input = document.getElementById('habit-input');
+            const timeInput = document.getElementById('habit-time');
+            
+            if (!input.value.trim()) return;
+
+            const newHabit = {
+                id: Date.now(),
+                name: input.value.trim(),
+                time: timeInput.value,
+                done: false
+            };
+
+            habits.push(newHabit);
+            input.value = '';
+            saveAndRender();
+        }
+
+        function deleteHabit(id) {
+            habits = habits.filter(h => h.id !== id);
+            saveAndRender();
+        }
+
+        function toggleHabit(id) {
+            const habit = habits.find(h => h.id === id);
+            if (habit) {
+                habit.done = !habit.done;
+                saveAndRender();
+
+                // Agar bajarilgan bo'lsa, ma'lumotni hisobot sifatida botga uzatamiz
+                if(habit.done) {
+                    const doneCount = habits.filter(h => h.done).length;
+                    const percent = Math.round((doneCount / habits.length) * 100);
+                    
+                    // Botga ketadigan formatlangan matn matni
+                    const reportData = `${habit.name} (Vaqti: ${habit.time}) | Umumiy: ${doneCount}/${habits.length} (${percent}%)`;
+                    
+                    setTimeout(() => {
+                        telegram.sendData(reportData);
+                        telegram.close();
+                    }, 500);
+                }
+            }
+        }
+
+        // Ilk yuklanganda render qilish
+        renderHabits();
     </script>
 </body>
 </html>
