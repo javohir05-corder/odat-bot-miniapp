@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odatlar Tracker</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root { 
+            --bg-color: #f5f7fb; 
+            --text-color: #2c3e50; 
+            --accent-color: #3498db; 
+        }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        h1 { font-size: 24px; margin-bottom: 5px; color: #2c3e50; text-align: center; }
+        .subtitle { font-size: 14px; color: #7f8c8d; margin-bottom: 25px; text-align: center; }
+        .habit-container { width: 100%; max-width: 360px; }
+        .habit-card { 
+            background: white; 
+            padding: 18px; 
+            border-radius: 14px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            border-left: 5px solid #3498db; 
+        }
+        .habit-info { display: flex; flex-direction: column; }
+        .habit-title { font-weight: bold; font-size: 16px; }
+        .btn-done { 
+            background: #2ecc71; 
+            color: white; 
+            border: none; 
+            padding: 10px 18px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        .btn-done:active { transform: scale(0.95); }
+        .disabled { background: #bdc3c7 !important; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <h1 id="greeting">Salom!</h1>
+    <p class="subtitle">Bugungi odatlaringizni belgilang:</p>
+
+    <div class="habit-container">
+        <div class="habit-card">
+            <div class="habit-info"><span class="habit-title">📚 Kitob o'qish</span></div>
+            <button class="btn-done" onclick="completeHabit('Kitob o\'qish', this)">Bajarildi</button>
+        </div>
+        <div class="habit-card" style="border-left-color: #e67e22;">
+            <div class="habit-info"><span class="habit-title">🏃‍♂️ Sport / Yugurish</span></div>
+            <button class="btn-done" onclick="completeHabit('Sport / Yugurish', this)">Bajarildi</button>
+        </div>
+        <div class="habit-card" style="border-left-color: #9b59b6;">
+            <div class="habit-info"><span class="habit-title">💧 2L Suv ichish</span></div>
+            <button class="btn-done" onclick="completeHabit('Suv ichish', this)">Bajarildi</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let userId = "00000";
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            userId = tg.initDataUnsafe.user.id;
+            document.getElementById('greeting').innerText = `Salom, ${tg.initDataUnsafe.user.first_name}!`;
+        }
+
+        function completeHabit(habitName, button) {
+            if (button.classList.contains('disabled')) return;
+            button.innerText = "Yozilmoqda...";
+            button.classList.add('disabled');
+
+            // Sizning SheetDB API havolangiz joylandi
+            const sheetdb_url = "https://sheetdb.io/api/v1/c7catjzvnlc5c"; 
+
+            // Google Sheets-da mavjud user qatorini topib, habit_name ustunini yangilash (PUT)
+            fetch(`${sheetdb_url}/user_id/${userId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ "data": { "habit_name": habitName } })
+            })
+            .then(res => res.json())
+            .then(() => {
+                button.innerText = "✓ OK";
+                tg.sendData(`Bajarildi: ${habitName}`);
+                setTimeout(() => tg.close(), 1000);
+            })
+            .catch(() => {
+                alert("Xato ketdi!");
+                button.innerText = "Bajarildi";
+                button.classList.remove('disabled');
+            });
+        }
+    </script>
+</body>
+</html>
