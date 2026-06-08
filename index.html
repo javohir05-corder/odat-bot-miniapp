@@ -35,7 +35,6 @@
             gap: 16px;
         }
 
-        /* BRAND HEADER */
         .brand-header {
             text-align: center;
             margin-top: 5px;
@@ -61,7 +60,6 @@
             margin-top: 2px;
         }
 
-        /* 3D GLASS PANEL STYLE */
         .glass-panel {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -84,14 +82,12 @@
             align-items: center;
         }
 
-        /* GRID ARXITEKTURA */
         .dashboard-layout {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
-        /* STATISTIKA (CHAP PANEL KONSEPCIYASI) */
         .stat-flex {
             display: flex;
             align-items: center;
@@ -146,7 +142,6 @@
         .s-item span:first-child { color: var(--text-gray); }
         .s-item span:last-child { font-weight: bold; }
 
-        /* ODUTLAR VA VAQT REJASI (O'RTA PANEL KONSEPCIYASI) */
         .habits-stack {
             display: flex;
             flex-direction: column;
@@ -221,7 +216,6 @@
             margin-left: 8px;
         }
 
-        /* VAQT REJASI GRAPHIC LINE */
         .timeline-track {
             display: flex;
             justify-content: space-between;
@@ -252,7 +246,6 @@
             box-shadow: 0 0 8px var(--lime-neon);
         }
 
-        /* KUNLIK MAQSADLAR & MUKOFOTLAR (O'NG PANEL KONSEPCIYASI) */
         .rewards-flex {
             display: flex;
             justify-content: space-around;
@@ -280,7 +273,6 @@
             color: var(--lime-neon);
         }
 
-        /* QUICK ADD TRIGGER & FORM */
         .trigger-add {
             background: rgba(255,255,255,0.01);
             border: 1px dashed var(--glass-border);
@@ -334,7 +326,6 @@
     </div>
 
     <div class="dashboard-layout">
-
         <div class="glass-panel">
             <div class="panel-header">Habit Streak & Progress</div>
             <div class="stat-flex">
@@ -393,7 +384,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -478,7 +468,6 @@
                     const totalCount = habits.length;
                     const percent = Math.round((doneCount / totalCount) * 100);
                     
-                    // Botga uzatiladigan dynamic toza ma'lumot
                     const payload = `${target.name} (Vaqt: ${target.time}) | Status: ${doneCount}/${totalCount} (${percent}%)`;
                     
                     setTimeout(() => {
@@ -506,7 +495,6 @@
             habits.forEach(h => {
                 if(h.done) doneCount++;
 
-                // Odatlar ro'yxati (O'rta panel)
                 const card = document.createElement('div');
                 card.className = `habit-row ${h.done ? 'completed' : ''}`;
                 card.innerHTML = `
@@ -523,7 +511,6 @@
                 `;
                 root.appendChild(card);
 
-                // Vaqt chizig'i (O'rta panel osti grafik element)
                 const dot = document.createElement('div');
                 dot.className = `time-dot ${h.done ? 'active' : ''}`;
                 timeline.appendChild(dot);
@@ -532,20 +519,17 @@
             const totalCount = habits.length;
             const percent = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
 
-            // Statistikani yangilash
             document.getElementById('lbl-percent').innerText = percent + "%";
             document.getElementById('lbl-focus').innerText = percent + "%";
             document.getElementById('lbl-ratio').innerText = `${doneCount}/${totalCount}`;
             document.getElementById('txt-counter').innerText = `${doneCount} / ${totalCount}`;
 
-            // Doiraviy grafikni neon chizish
             const circle = document.getElementById('progress-circle');
             const circumference = 2 * Math.PI * 33;
             const offset = circumference - (percent / 100) * circumference;
             circle.style.strokeDasharray = `${circumference} ${circumference}`;
             circle.style.strokeDashoffset = offset;
 
-            // Mukofotlarni dynamic blokdan chiqarish (O'ng panel)
             document.getElementById('badge-1').classList.toggle('unlocked', doneCount >= 1);
             document.getElementById('badge-2').classList.toggle('unlocked', percent >= 50);
             document.getElementById('badge-3').classList.toggle('unlocked', percent === 100 && totalCount > 0);
