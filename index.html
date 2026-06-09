@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Odatlar & Xarajatlar Premium Dashboard</title>
+    <title>Odatlar & Xarajatlar Dashboard Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-dark: #060a13;
-            --sidebar-bg: #0b111e;
-            --panel-bg: #111a2e;
-            --panel-hover: #17243f;
-            --border-color: #1e293b;
-            --cyan-accent: #10b981; 
-            --cyan-glow: rgba(16, 185, 129, 0.3);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --card-orange: #f97316;
-            --card-blue: #3b82f6;
-            --card-purple: #a855f7;
-            --danger: #ef4444;
+            --bg-dark: #0f131a;
+            --sidebar-bg: #131924;
+            --panel-bg: #1a212d;
+            --panel-hover: #222b3a;
+            --border-color: #262f3f;
+            --cyan-accent: #63e620; 
+            --cyan-glow: rgba(99, 230, 32, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #7e8b9b;
+            --card-orange: #ff9f1c;
+            --card-blue: #2ec4b6;
+            --card-purple: #e0115f;
+            --danger: #ff4d4d;
         }
 
         * {
@@ -39,72 +39,71 @@
             letter-spacing: -0.2px;
         }
 
-        /* ------------------ SIDEBAR NAVIGATION ------------------ */
+        /* ------------------ IXCHAM YON MENYU (SIDEBAR) ------------------ */
         .sidebar {
-            width: 75px;
+            width: 60px;
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px 0;
-            gap: 18px;
+            padding: 16px 0;
+            gap: 12px;
         }
 
         .sidebar-logo {
-            font-size: 22px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--cyan-accent);
+            text-shadow: 0 0 10px var(--cyan-glow);
             font-weight: 800;
         }
 
         .side-item {
-            width: 46px;
-            height: 46px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 14px;
+            border-radius: 10px;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .side-item span { font-size: 19px; }
+        .side-item span { font-size: 15px; }
 
         .side-item:hover {
             color: var(--text-main);
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .side-item.active {
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(99, 230, 32, 0.1);
             color: var(--cyan-accent);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(99, 230, 32, 0.25);
+            box-shadow: 0 0 10px rgba(99, 230, 32, 0.1);
         }
 
-        /* ------------------ MAIN CONTENT AREA ------------------ */
+        /* ------------------ ASOSIY KONTENT SOHASI ------------------ */
         .main-container {
             flex: 1;
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             overflow-y: auto;
             max-height: 100vh;
         }
 
-        /* TOP NAVIGATION */
+        /* YUQORI NAVBAR */
         .top-navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(17, 26, 46, 0.6);
-            backdrop-filter: blur(12px);
+            background: var(--panel-bg);
             padding: 6px;
-            border-radius: 14px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
         }
 
@@ -114,235 +113,227 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 8px 16px;
-            font-size: 13px;
+            padding: 8px 14px;
+            font-size: 12px;
             font-weight: 600;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .tab-btn.active {
-            background: var(--panel-bg);
-            color: var(--text-main);
+            background: var(--sidebar-bg);
+            color: var(--cyan-accent);
             border: 1px solid var(--border-color);
         }
 
         .add-habit-btn {
             background: var(--cyan-accent);
-            color: #042f1a;
+            color: #000;
             border: none;
-            padding: 8px 16px;
-            font-size: 13px;
+            padding: 8px 14px;
+            font-size: 12px;
             font-weight: 700;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 4px 12px var(--cyan-glow);
             transition: transform 0.2s;
         }
         .add-habit-btn:active { transform: scale(0.96); }
 
-        /* APP SECTIONS */
+        /* BUSY SECTIONS */
         .app-section { display: none; flex-direction: column; gap: 16px; }
         .app-section.active-section { display: flex; }
 
-        /* 1. KUNLIK VIEW (CHECKLIST) */
+        /* 1. KUNLIK CHECKLIST */
         .daily-list { display: flex; flex-direction: column; gap: 10px; }
         .daily-item {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            padding: 16px;
-            border-radius: 16px;
+            padding: 14px;
+            border-radius: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.2s;
         }
-        .daily-item:hover { background: var(--panel-hover); }
-
-        .daily-info h4 { font-size: 15px; font-weight: 600; color: var(--text-main); }
-        .daily-info p { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+        .daily-info h4 { font-size: 14px; font-weight: 600; color: var(--text-main); }
+        .daily-info p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
         .bajarish-btn {
             background: transparent;
-            border: 1.5px solid var(--border-color);
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 8px 18px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
         .bajarish-btn.done {
-            background: rgba(16, 185, 129, 0.15);
+            background: var(--cyan-accent);
             border-color: var(--cyan-accent);
-            color: var(--cyan-accent);
+            color: #000;
             font-weight: 700;
+            box-shadow: 0 0 8px var(--cyan-glow);
         }
 
-        /* 2. KALENDAR VIEW (MATRIX) */
+        /* 2. KALENDAR MATRIX */
         .matrix-panel {
             background: var(--panel-bg);
-            border-radius: 18px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 16px;
             overflow-x: auto;
         }
-
-        .matrix-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .matrix-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .table-container { min-width: 850px; }
-        .table-row-head { display: flex; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 12px; }
-        .col-habit-name { width: 160px; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
+        .table-row-head { display: flex; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px; }
+        .col-habit-name { width: 160px; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
         .col-days-grid { flex: 1; display: grid; grid-template-columns: repeat(31, 1fr); gap: 4px; text-align: center; }
-        .day-num-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .day-num-label { font-size: 10px; color: var(--text-muted); font-weight: 600; }
         .col-stats-head { width: 80px; display: flex; justify-content: space-around; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
         
-        .habit-matrix-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.01); }
-        .habit-title-cell { width: 160px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; padding-right: 12px;}
-        .delete-icon { cursor: pointer; opacity: 0; font-size: 12px; transition: opacity 0.2s; }
-        .habit-matrix-row:hover .delete-icon { opacity: 0.4; }
-        .delete-icon:hover { opacity: 1 !important; color: var(--danger); }
+        .habit-matrix-row { display: flex; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.01); }
+        .habit-title-cell { width: 160px; font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; padding-right: 12px;}
+        .delete-icon { cursor: pointer; opacity: 0.3; font-size: 11px; }
+        .delete-icon:hover { opacity: 1; color: var(--danger); }
         
         .dots-grid { flex: 1; display: grid; grid-template-columns: repeat(31, 1fr); gap: 4px; }
-        .matrix-dot { aspect-ratio: 1; border-radius: 6px; background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; transition: all 0.15s; }
+        .matrix-dot { aspect-ratio: 1; border-radius: 5px; background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); cursor: pointer; }
         .matrix-dot.checked { background-color: var(--cyan-accent); border-color: var(--cyan-accent); box-shadow: 0 0 6px var(--cyan-glow); }
-        .stats-cell { width: 80px; display: flex; justify-content: space-around; font-size: 13px; font-weight: 700; }
+        .stats-cell { width: 80px; display: flex; justify-content: space-around; font-size: 12px; font-weight: 700; }
 
-        /* 3. STATISTIKA VIEW PANELS */
-        .stats-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; overflow-x: auto; }
-        .stat-mini-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; text-align: center; min-width: 110px; }
-        .card-icon { font-size: 18px; }
-        .card-val { font-size: 20px; font-weight: 800; margin: 6px 0; color: var(--text-main); }
-        .card-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        /* 3. STATISTIKA */
+        .stats-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-x: auto; }
+        .stat-mini-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; min-width: 100px; }
+        .card-icon { font-size: 16px; }
+        .card-val { font-size: 18px; font-weight: 800; margin: 4px 0; color: var(--cyan-accent); }
+        .card-lbl { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
         
-        .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px; }
-        .svg-chart-container { width: 100%; height: 160px; margin-top: 15px; }
+        .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; }
+        .svg-chart-container { width: 100%; height: 140px; margin-top: 10px; }
 
-        /* 4. TAYMER PANEL */
-        .timer-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 36px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .timer-display { font-size: 56px; font-weight: 800; color: var(--cyan-accent); letter-spacing: 1px; font-variant-numeric: tabular-nums; }
-        .timer-controls { display: flex; gap: 12px; }
-        .btn-action { background: rgba(255,255,255,0.03); color: #fff; border: 1px solid var(--border-color); padding: 10px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn-action:hover { background: rgba(255,255,255,0.06); }
+        /* 4. TAYMER */
+        .timer-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .timer-display { font-size: 48px; font-weight: 800; color: var(--cyan-accent); text-shadow: 0 0 15px var(--cyan-glow); font-variant-numeric: tabular-nums; }
+        .timer-controls { display: flex; gap: 10px; }
+        .btn-action { background: rgba(255,255,255,0.02); color: #fff; border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .btn-action:hover { border-color: var(--cyan-accent); }
 
-        /* 5. DYNAMIC XARAJATLAR PANEL */
-        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-        .expense-form { display: flex; gap: 10px; }
-        .expense-list { display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; }
-        .expense-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 14px; border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color); }
+        /* 5. XARAJATLAR */
+        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .expense-form { display: flex; gap: 8px; }
+        .expense-list { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
+        .expense-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 12px; border-radius: 10px; font-size: 13px; border: 1px solid var(--border-color); }
 
-        /* ================= 6. PREMIUM PROFIL PANEL (ZAMONAVIY) ================= */
+        /* ================= 6. BEJIRIM PROFIL PANEL (YANGILANGAN) ================= */
         .profile-container-box {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
+            border-radius: 18px;
+            padding: 20px;
             width: 100%;
-            max-width: 400px;
+            max-width: 360px;
             margin: 0 auto;
             position: relative;
         }
 
-        /* Edit qalamcha tugmasi */
+        /* Tahrirlash kichik tugmasi */
         .edit-profile-trigger {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            background: rgba(255,255,255,0.03);
+            top: 16px;
+            right: 16px;
+            width: 28px;
+            height: 28px;
+            background: var(--sidebar-bg);
             border: 1px solid var(--border-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
+            font-size: 11px;
             color: var(--text-muted);
             z-index: 5;
         }
         .edit-profile-trigger:hover {
-            background: var(--panel-hover);
             color: var(--cyan-accent);
-            border-color: rgba(16, 185, 129, 0.3);
+            border-color: var(--cyan-accent);
         }
 
-        /* Rasm joyi */
+        /* Rasm elementi */
         .profile-avatar-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .avatar-circle {
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             border: 2px solid var(--border-color);
-            background: rgba(255,255,255,0.02);
+            background: #131924;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            position: relative;
+            cursor: pointer;
             transition: all 0.2s;
+            position: relative;
         }
-        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-edit-label { font-size: 11px; color: var(--cyan-accent); font-weight: 600; text-align: center; padding: 6px; cursor: pointer;}
+        .avatar-edit-label { font-size: 10px; color: var(--cyan-accent); font-weight: 600; text-align: center; }
 
-        /* Rejimlar */
-        .profile-view-mode { display: flex; flex-direction: column; gap: 16px; width: 100%; }
-        .profile-edit-mode { display: none; flex-direction: column; gap: 12px; width: 100%; }
+        /* Rejim konteynerlari */
+        .profile-view-mode { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+        .profile-edit-mode { display: none; flex-direction: column; gap: 10px; width: 100%; }
 
-        /* Chiroyli vizual dizayn kartochkalari */
-        .view-name-title { font-size: 20px; font-weight: 700; text-align: center; color: var(--text-main); margin-top: 4px; }
-        .view-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; text-align: center; }
-        .meta-pill { background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 10px; border-radius: 12px; }
-        .meta-pill .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
-        .meta-pill .val { font-size: 14px; font-weight: 700; color: var(--cyan-accent); margin-top: 4px; }
+        .view-name-title { font-size: 18px; font-weight: 700; text-align: center; color: var(--text-main); }
+        .view-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+        .meta-pill { background: var(--sidebar-bg); border: 1px solid var(--border-color); padding: 8px; border-radius: 10px; }
+        .meta-pill .lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
+        .meta-pill .val { font-size: 13px; font-weight: 700; color: var(--cyan-accent); margin-top: 2px; }
 
         .region-badge {
-            background: rgba(59, 130, 246, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 12px;
-            border-radius: 14px;
+            background: rgba(99, 230, 32, 0.05);
+            border: 1px solid rgba(99, 230, 32, 0.2);
+            padding: 10px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            color: #93c5fd;
-            margin-top: 6px;
+            color: var(--cyan-accent);
         }
 
-        /* Inputlar dizayni */
+        /* Inputlar */
         .inp-flat, .select-flat { 
             background: var(--bg-dark); 
             border: 1px solid var(--border-color); 
-            padding: 12px 14px; 
-            border-radius: 12px; 
+            padding: 10px 12px; 
+            border-radius: 10px; 
             color: #fff; 
-            font-size: 14px; 
+            font-size: 13px; 
             outline: none; 
             width: 100%; 
-            transition: border-color 0.2s;
         }
         .inp-flat:focus, .select-flat:focus { border-color: var(--cyan-accent); }
         .select-flat option { background: var(--bg-dark); color: #fff; }
 
-        /* POPUP MODAL FORM */
-        .form-overlay { display: none; background: rgba(0,0,0,0.85); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px); }
-        .form-card { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 24px; border-radius: 20px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 14px; }
+        /* OVERLAY MODAL */
+        .form-overlay { display: none; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        .form-card { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 12px; }
         .form-actions { display: flex; gap: 8px; }
-        .btn-cancel { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: #fff; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer;}
-        .btn-save { flex: 1; background: var(--cyan-accent); color: #042f1a; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer;}
+        .btn-cancel { flex: 1; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); color: #fff; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;}
+        .btn-save { flex: 1; background: var(--cyan-accent); color: #000; border: none; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer;}
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-logo">M</div>
+        <div class="sidebar-logo">P</div>
         <div class="side-item" id="side-best" onclick="clickSidebar('best')"><span>🏆</span></div>
         <div class="side-item active" id="side-stats" onclick="clickSidebar('stats')"><span>📊</span></div>
         <div class="side-item" id="side-timer" onclick="clickSidebar('timer')"><span>⏱️</span></div>
@@ -366,8 +357,8 @@
 
             <div id="sub-kalendar" class="matrix-panel">
                 <div class="matrix-header">
-                    <h3 style="font-size: 15px; font-weight: 700;">Odatlar jadvali</h3>
-                    <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Iyun 2026</div>
+                    <h3 style="font-size: 14px; font-weight: 700;">Odatlar jadvali</h3>
+                    <div style="font-size: 11px; color: var(--text-muted);">Iyun 2026</div>
                 </div>
                 <div class="table-container">
                     <div class="table-row-head">
@@ -381,28 +372,28 @@
 
             <div id="sub-statistika" style="display: none;" class="app-section active-section">
                 <div class="stats-grid-row">
-                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--cyan-accent);">🎯</div><div class="card-val" id="st-total-habits">0</div><div class="card-lbl">Jami</div></div>
-                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--cyan-accent);">✓</div><div class="card-val" id="st-today-done">0/0</div><div class="card-lbl">Bugun</div></div>
-                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--card-orange);">🔥</div><div class="card-val" id="st-week-done">0</div><div class="card-lbl">Hafta</div></div>
-                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--card-blue);">⚡</div><div class="card-val" id="st-week-trend">0%</div><div class="card-lbl">Trend</div></div>
-                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--card-purple);">🏅</div><div class="card-val" id="st-all-done">0</div><div class="card-lbl">Jami bajarilgan</div></div>
+                    <div class="stat-mini-card"><div class="card-icon">🎯</div><div class="card-val" id="st-total-habits">0</div><div class="card-lbl">Jami</div></div>
+                    <div class="stat-mini-card"><div class="card-icon">✓</div><div class="card-val" id="st-today-done">0/0</div><div class="card-lbl">Bugun</div></div>
+                    <div class="stat-mini-card"><div class="card-icon">🔥</div><div class="card-val" id="st-week-done">0</div><div class="card-lbl">Hafta</div></div>
+                    <div class="stat-mini-card"><div class="card-icon">⚡</div><div class="card-val" id="st-week-trend">0%</div><div class="card-lbl">Trend</div></div>
+                    <div class="stat-mini-card"><div class="card-icon">🏅</div><div class="card-val" id="st-all-done">0</div><div class="card-lbl">Jami</div></div>
                 </div>
 
                 <div class="chart-panel">
-                    <span style="font-size: 14px; font-weight:700;">Haftalik ko'rsatkich</span>
+                    <span style="font-size: 13px; font-weight:700;">Haftalik ko'rsatkich</span>
                     <div class="svg-chart-container">
                         <svg width="100%" height="100%" viewBox="0 0 500 150" preserveAspectRatio="none">
-                            <line x1="0" y1="30" x2="500" y2="30" stroke="#1e293b" stroke-dasharray="3"/>
-                            <line x1="0" y1="75" x2="500" y2="75" stroke="#1e293b" stroke-dasharray="3"/>
-                            <line x1="0" y1="120" x2="500" y2="120" stroke="#1e293b"/>
-                            <path d="M 35 120 L 105 120 L 175 120 L 245 120 L 315 120 L 385 120 L 455 120" fill="none" stroke="#10b981" stroke-width="3" id="chart-line-path"/>
-                            <circle cx="35" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-0"/>
-                            <circle cx="105" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-1"/>
-                            <circle cx="175" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-2"/>
-                            <circle cx="245" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-3"/>
-                            <circle cx="315" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-4"/>
-                            <circle cx="385" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-5"/>
-                            <circle cx="455" cy="120" r="4.5" fill="#111a2e" stroke="#10b981" stroke-width="2.5" id="dot-6"/>
+                            <line x1="0" y1="30" x2="500" y2="30" stroke="#262f3f" stroke-dasharray="3"/>
+                            <line x1="0" y1="75" x2="500" y2="75" stroke="#262f3f" stroke-dasharray="3"/>
+                            <line x1="0" y1="120" x2="500" y2="120" stroke="#262f3f"/>
+                            <path d="M 35 120 L 105 120 L 175 120 L 245 120 L 315 120 L 385 120 L 455 120" fill="none" stroke="#63e620" stroke-width="3" id="chart-line-path"/>
+                            <circle cx="35" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-0"/>
+                            <circle cx="105" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-1"/>
+                            <circle cx="175" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-2"/>
+                            <circle cx="245" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-3"/>
+                            <circle cx="315" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-4"/>
+                            <circle cx="385" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-5"/>
+                            <circle cx="455" cy="120" r="4.5" fill="#1a212d" stroke="#63e620" stroke-width="2.5" id="dot-6"/>
                         </svg>
                     </div>
                 </div>
@@ -412,13 +403,12 @@
         <div id="sec-best" class="app-section">
             <div class="timer-card">
                 <h2>🏆 Rekordlar Paneli</h2>
-                <p style="color: var(--text-muted); font-size:14px;">Barcha mukofotlaringiz va eng yuqori natijalaringiz avtomatik jamlanadi.</p>
             </div>
         </div>
 
         <div id="sec-timer" class="app-section">
             <div class="timer-card">
-                <h3 style="font-size:16px;">⏱️ Fokus Taymeri</h3>
+                <h3 style="font-size:14px;">⏱️ Fokus Taymeri</h3>
                 <div class="timer-display" id="timer-text">25:00</div>
                 <div class="timer-controls">
                     <button class="btn-action" onclick="toggleTimer()">Start</button>
@@ -429,11 +419,11 @@
 
         <div id="sec-expenses" class="app-section">
             <div class="expense-card">
-                <h3 style="font-size:16px;">💳 Kunlik Xarajatlar</h3>
+                <h3 style="font-size:14px;">💳 Kunlik Xarajatlar</h3>
                 <div class="expense-form">
                     <input type="text" id="exp-title-inp" class="inp-flat" placeholder="Xarajat nomi" style="flex:2;">
-                    <input type="number" id="exp-amount-inp" class="inp-flat" placeholder="Summa (UZS)" style="flex:1;">
-                    <button class="btn-save" onclick="addExpenseItem()" style="padding: 0 20px; border-radius:12px;">+</button>
+                    <input type="number" id="exp-amount-inp" class="inp-flat" placeholder="Summa" style="flex:1;">
+                    <button class="btn-save" onclick="addExpenseItem()" style="padding: 0 16px; border-radius:10px;">+</button>
                 </div>
                 <div class="expense-list" id="expense-list-root"></div>
             </div>
@@ -441,12 +431,10 @@
 
         <div id="sec-settings" class="app-section">
             <div class="profile-container-box">
-                
                 <div class="edit-profile-trigger" id="profile-edit-btn" onclick="toggleProfileEditMode()">✏️</div>
 
                 <div class="profile-avatar-wrapper">
                     <div class="avatar-circle" id="avatar-click-zone" onclick="triggerAvatarSelect()">
-                        <img id="profile-avatar-img" src="" style="display: none;">
                         <div id="avatar-text-placeholder" class="avatar-edit-label">Rasm yuklash</div>
                     </div>
                     <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
@@ -458,7 +446,7 @@
                     <div class="view-meta-row">
                         <div class="meta-pill"><div class="lbl">Yosh</div><div class="val" id="v-age">-</div></div>
                         <div class="meta-pill"><div class="lbl">Jins</div><div class="val" id="v-gender">-</div></div>
-                        <div class="meta-pill"><div class="lbl">Status</div><div class="val" style="color:var(--card-blue)">Active</div></div>
+                        <div class="meta-pill"><div class="lbl">Status</div><div class="val">Pro</div></div>
                     </div>
                     
                     <div class="region-badge" id="v-region">Viloyat tanlanmagan</div>
@@ -492,9 +480,8 @@
                         <option value="Qoraqalpog'iston">Qoraqalpog'iston R.</option>
                     </select>
 
-                    <button class="btn-save" style="margin-top: 8px;" onclick="saveProfileData()">Saqlash</button>
+                    <button class="btn-save" style="margin-top: 6px;" onclick="saveProfileData()">Saqlash</button>
                 </div>
-
             </div>
         </div>
 
@@ -502,7 +489,7 @@
 
     <div class="form-overlay" id="modal-form">
         <div class="form-card">
-            <h3 style="font-size:16px;">Yangi odat qo'shish</h3>
+            <h3 style="font-size:14px;">Yangi odat qo'shish</h3>
             <input type="text" id="habit-name-inp" class="inp-flat" placeholder="Odat nomi">
             <div class="form-actions">
                 <button class="btn-cancel" onclick="closeModal()">Bekor qilish</button>
@@ -523,7 +510,6 @@
             try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
         }
 
-        // SIDEBAR MENYU TUGMALARI
         function clickSidebar(target) {
             triggerHaptic();
             document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
@@ -543,7 +529,6 @@
             }
         }
 
-        // TEPADAGI TABS TUGMALARI
         function switchTab(tabName) {
             triggerHaptic();
             document.getElementById('sub-kunlik').style.display = 'none';
@@ -596,7 +581,7 @@
                 const item = document.createElement('div'); item.className = 'daily-item';
                 item.innerHTML = `
                     <div class="daily-info"><h4>${h.name}</h4><p>${isDone ? 'Bajarilgan ✨' : 'Kutilmoqda'}</p></div>
-                    <button class="bajarish-btn ${isDone ? 'done' : ''}" onclick="toggleDayCheck(${h.id}, ${currentDay})">${isDone ? '✓ Bajarildi' : 'Bajarish'}</button>
+                    <button class="bajarish-btn ${isDone ? 'done' : ''}" onclick="toggleDayCheck(${h.id}, ${currentDay})">${isDone ? '✓ OK' : 'Bajarish'}</button>
                 `;
                 root.appendChild(item);
             });
@@ -656,7 +641,6 @@
             document.getElementById('chart-line-path').setAttribute('d', "M " + points.join(" L "));
         }
 
-        // XARAJATLAR LOGIKASI
         function addExpenseItem() {
             triggerHaptic();
             const titleInp = document.getElementById('exp-title-inp');
@@ -680,17 +664,17 @@
         function renderExpenses() {
             const root = document.getElementById('expense-list-root'); root.innerHTML = '';
             if(expenses.length === 0) {
-                root.innerHTML = `<p style="color:var(--text-muted); font-size:13px; text-align:center; padding:20px;">Hozircha xarajatlar kiritilmagan</p>`;
+                root.innerHTML = `<p style="color:var(--text-muted); font-size:12px; text-align:center; padding:16px;">Xarajatlar yo'q</p>`;
                 return;
             }
             expenses.forEach(e => {
                 const row = document.createElement('div'); row.className = 'expense-row';
-                row.innerHTML = `<span>${e.title}</span><div style="display:flex; gap:12px; align-items:center;"><span style="color:var(--card-orange); font-weight:700;">-${e.amount} UZS</span><span style="cursor:pointer; opacity:0.4;" onclick="deleteExpense(${e.id})">❌</span></div>`;
+                row.innerHTML = `<span>${e.title}</span><div style="display:flex; gap:10px; align-items:center;"><span style="color:var(--card-orange); font-weight:700;">-${e.amount} UZS</span><span style="cursor:pointer;" onclick="deleteExpense(${e.id})">❌</span></div>`;
                 root.appendChild(row);
             });
         }
 
-        // ================= PROFILE / AVATAR LOGIKASI =================
+        // ================= RASM / AVATAR LOGIKASI (YANGI VA ISHONCHLI) =================
         function triggerAvatarSelect() {
             if(isEditMode) {
                 document.getElementById('avatar-file-input').click();
@@ -703,17 +687,22 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     localStorage.setItem('profile_avatar_base64_v6', e.target.result);
-                    showAvatar(e.target.result);
+                    applyAvatarCSS(e.target.result);
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        function showAvatar(src) {
-            const img = document.getElementById('profile-avatar-img');
+        function applyAvatarCSS(base64Data) {
+            const circle = document.getElementById('avatar-click-zone');
             const placeholder = document.getElementById('avatar-text-placeholder');
-            if(src) { img.src = src; img.style.display = 'block'; placeholder.style.display = 'none'; }
-            else { img.style.display = 'none'; placeholder.style.display = 'block'; }
+            if(base64Data) {
+                circle.style.backgroundImage = `url('${base64Data}')`;
+                placeholder.style.display = 'none';
+            } else {
+                circle.style.backgroundImage = 'none';
+                placeholder.style.display = 'block';
+            }
         }
 
         function toggleProfileEditMode() {
@@ -759,16 +748,14 @@
             const data = JSON.parse(localStorage.getItem('user_profile_data_v6'));
             const savedAvatar = localStorage.getItem('profile_avatar_base64_v6');
             
-            showAvatar(savedAvatar || null);
+            applyAvatarCSS(savedAvatar || null);
 
             if(data) {
-                // Inputlarni to'ldirish
                 document.getElementById('prof-name').value = data.name || '';
                 document.getElementById('prof-age').value = data.age || '';
                 document.getElementById('prof-gender').value = data.gender || '';
                 document.getElementById('prof-region').value = data.region || '';
 
-                // Vizual ko'rinishni yangilash
                 document.getElementById('v-name').innerText = data.name || 'Kiritilmagan';
                 document.getElementById('v-age').innerText = data.age ? data.age + ' yosh' : '-';
                 document.getElementById('v-gender').innerText = data.gender || '-';
@@ -795,7 +782,6 @@
             document.getElementById('timer-text').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
         }
 
-        // INITIAL STARTUP
         renderMatrixTable();
         switchTab('kalendar');
     </script>
