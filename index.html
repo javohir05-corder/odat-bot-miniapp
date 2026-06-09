@@ -36,42 +36,84 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
             letter-spacing: -0.2px;
         }
 
-        /* ------------------ IXCHAM YON MENYU (SIDEBAR) ------------------ */
+        /* ------------------ SURILIB CHIQUVCHI MENYU (DRAWER SIDEBAR) ------------------ */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .sidebar {
-            width: 60px;
+            position: fixed;
+            top: 0;
+            left: -220px; /* Boshida chapda yashirin */
+            width: 200px;
+            height: 100%;
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 16px 0;
-            gap: 12px;
+            padding: 20px 14px;
+            gap: 8px;
+            z-index: 999;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar.open {
+            left: 0; /* Surilib chiqish */
         }
 
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+        }
         .sidebar-logo {
             font-size: 16px;
-            margin-bottom: 12px;
             color: var(--cyan-accent);
             text-shadow: 0 0 10px var(--cyan-glow);
             font-weight: 800;
         }
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
 
         .side-item {
-            width: 38px;
-            height: 38px;
+            width: 100%;
+            height: 42px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            padding: 0 14px;
+            gap: 12px;
             border-radius: 10px;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
         }
-
-        .side-item span { font-size: 15px; }
+        .side-item span.icon { font-size: 16px; }
+        .side-item span.text { font-size: 13px; font-weight: 500; }
 
         .side-item:hover {
             color: var(--text-main);
@@ -79,32 +121,51 @@
         }
 
         .side-item.active {
-            background: rgba(99, 230, 32, 0.1);
+            background: rgba(99, 230, 32, 0.08);
             color: var(--cyan-accent);
-            border: 1px solid rgba(99, 230, 32, 0.25);
-            box-shadow: 0 0 10px rgba(99, 230, 32, 0.1);
+            border: 1px solid rgba(99, 230, 32, 0.2);
+            box-shadow: 0 0 10px rgba(99, 230, 32, 0.05);
         }
 
         /* ------------------ ASOSIY KONTENT SOHASI ------------------ */
         .main-container {
             flex: 1;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
             overflow-y: auto;
-            max-height: 100vh;
+            width: 100%;
         }
 
-        /* YUQORI NAVBAR */
+        /* YUQORI GLOBAL PANEL VA HAMBURGER */
+        .global-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--panel-bg);
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .menu-trigger {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+        }
+
         .top-navbar {
             display: flex;
+            flex: 1;
             justify-content: space-between;
             align-items: center;
-            background: var(--panel-bg);
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
         }
 
         .nav-tabs { display: flex; gap: 4px; }
@@ -113,7 +174,7 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 8px 14px;
+            padding: 8px 12px;
             font-size: 12px;
             font-weight: 600;
             border-radius: 8px;
@@ -131,8 +192,8 @@
             background: var(--cyan-accent);
             color: #000;
             border: none;
-            padding: 8px 14px;
-            font-size: 12px;
+            padding: 8px 12px;
+            font-size: 11px;
             font-weight: 700;
             border-radius: 8px;
             cursor: pointer;
@@ -141,11 +202,11 @@
         }
         .add-habit-btn:active { transform: scale(0.96); }
 
-        /* BUSY SECTIONS */
-        .app-section { display: none; flex-direction: column; gap: 16px; }
+        /* SECTIONS */
+        .app-section { display: none; flex-direction: column; gap: 16px; width: 100%; }
         .app-section.active-section { display: flex; }
 
-        /* 1. KUNLIK CHECKLIST */
+        /* KUNLIK CHECKLIST */
         .daily-list { display: flex; flex-direction: column; gap: 10px; }
         .daily-item {
             background: var(--panel-bg);
@@ -177,13 +238,14 @@
             box-shadow: 0 0 8px var(--cyan-glow);
         }
 
-        /* 2. KALENDAR MATRIX */
+        /* KALENDAR MATRIX */
         .matrix-panel {
             background: var(--panel-bg);
             border-radius: 16px;
             border: 1px solid var(--border-color);
             padding: 16px;
             overflow-x: auto;
+            width: 100%;
         }
         .matrix-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .table-container { min-width: 850px; }
@@ -203,30 +265,28 @@
         .matrix-dot.checked { background-color: var(--cyan-accent); border-color: var(--cyan-accent); box-shadow: 0 0 6px var(--cyan-glow); }
         .stats-cell { width: 80px; display: flex; justify-content: space-around; font-size: 12px; font-weight: 700; }
 
-        /* 3. STATISTIKA */
-        .stats-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-x: auto; }
-        .stat-mini-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; min-width: 100px; }
+        /* STATISTIKA */
+        .stats-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-x: auto; width: 100%; }
+        .stat-mini-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; min-width: 90px; }
         .card-icon { font-size: 16px; }
-        .card-val { font-size: 18px; font-weight: 800; margin: 4px 0; color: var(--cyan-accent); }
+        .card-val { font-size: 16px; font-weight: 800; margin: 4px 0; color: var(--cyan-accent); }
         .card-lbl { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
         
-        .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; }
+        .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; width: 100%; }
         .svg-chart-container { width: 100%; height: 140px; margin-top: 10px; }
 
-        /* 4. TAYMER */
-        .timer-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        /* TAYMER */
+        .timer-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; }
         .timer-display { font-size: 48px; font-weight: 800; color: var(--cyan-accent); text-shadow: 0 0 15px var(--cyan-glow); font-variant-numeric: tabular-nums; }
         .timer-controls { display: flex; gap: 10px; }
-        .btn-action { background: rgba(255,255,255,0.02); color: #fff; border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; }
-        .btn-action:hover { border-color: var(--cyan-accent); }
 
-        /* 5. XARAJATLAR */
-        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        /* XARAJATLAR */
+        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; width: 100%; }
         .expense-form { display: flex; gap: 8px; }
         .expense-list { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
         .expense-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 12px; border-radius: 10px; font-size: 13px; border: 1px solid var(--border-color); }
 
-        /* ================= 6. BEJIRIM PROFIL PANEL (YANGILANGAN) ================= */
+        /* PROFIL PANEL */
         .profile-container-box {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
@@ -238,7 +298,6 @@
             position: relative;
         }
 
-        /* Tahrirlash kichik tugmasi */
         .edit-profile-trigger {
             position: absolute;
             top: 16px;
@@ -256,19 +315,8 @@
             color: var(--text-muted);
             z-index: 5;
         }
-        .edit-profile-trigger:hover {
-            color: var(--cyan-accent);
-            border-color: var(--cyan-accent);
-        }
 
-        /* Rasm elementi */
-        .profile-avatar-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
+        .profile-avatar-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
         .avatar-circle {
             width: 80px;
             height: 80px;
@@ -282,74 +330,71 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s;
             position: relative;
         }
         .avatar-edit-label { font-size: 10px; color: var(--cyan-accent); font-weight: 600; text-align: center; }
 
-        /* Rejim konteynerlari */
         .profile-view-mode { display: flex; flex-direction: column; gap: 14px; width: 100%; }
         .profile-edit-mode { display: none; flex-direction: column; gap: 10px; width: 100%; }
-
         .view-name-title { font-size: 18px; font-weight: 700; text-align: center; color: var(--text-main); }
         .view-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
         .meta-pill { background: var(--sidebar-bg); border: 1px solid var(--border-color); padding: 8px; border-radius: 10px; }
         .meta-pill .lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
         .meta-pill .val { font-size: 13px; font-weight: 700; color: var(--cyan-accent); margin-top: 2px; }
+        .region-badge { background: rgba(99, 230, 32, 0.05); border: 1px solid rgba(99, 230, 32, 0.2); padding: 10px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 600; color: var(--cyan-accent); }
 
-        .region-badge {
-            background: rgba(99, 230, 32, 0.05);
-            border: 1px solid rgba(99, 230, 32, 0.2);
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--cyan-accent);
-        }
-
-        /* Inputlar */
         .inp-flat, .select-flat { 
-            background: var(--bg-dark); 
-            border: 1px solid var(--border-color); 
-            padding: 10px 12px; 
-            border-radius: 10px; 
-            color: #fff; 
-            font-size: 13px; 
-            outline: none; 
-            width: 100%; 
+            background: var(--bg-dark); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 10px; color: #fff; font-size: 13px; outline: none; width: 100%; 
         }
         .inp-flat:focus, .select-flat:focus { border-color: var(--cyan-accent); }
-        .select-flat option { background: var(--bg-dark); color: #fff; }
 
-        /* OVERLAY MODAL */
-        .form-overlay { display: none; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        /* MODAL */
+        .form-overlay { display: none; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
         .form-card { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 12px; }
         .form-actions { display: flex; gap: 8px; }
         .btn-cancel { flex: 1; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); color: #fff; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer;}
         .btn-save { flex: 1; background: var(--cyan-accent); color: #000; border: none; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer;}
+        .btn-action { background: rgba(255,255,255,0.02); color: #fff; border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="sidebar-logo">P</div>
-        <div class="side-item" id="side-best" onclick="clickSidebar('best')"><span>🏆</span></div>
-        <div class="side-item active" id="side-stats" onclick="clickSidebar('stats')"><span>📊</span></div>
-        <div class="side-item" id="side-timer" onclick="clickSidebar('timer')"><span>⏱️</span></div>
-        <div class="side-item" id="side-expenses" onclick="clickSidebar('expenses')"><span>💳</span></div>
-        <div class="side-item" id="side-settings" onclick="clickSidebar('settings')"><span>⚙️</span></div>
+    <div class="sidebar-overlay" id="menu-overlay" onclick="toggleSidebarMenu(false)"></div>
+    <div class="sidebar" id="main-sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">P</div>
+            <div class="sidebar-title">Dashboard Pro</div>
+        </div>
+        <div class="side-item" id="side-best" onclick="clickSidebar('best')">
+            <span class="icon">🏆</span> <span class="text">Rekordlar</span>
+        </div>
+        <div class="side-item active" id="side-stats" onclick="clickSidebar('stats')">
+            <span class="icon">📊</span> <span class="text">Odatlar</span>
+        </div>
+        <div class="side-item" id="side-timer" onclick="clickSidebar('timer')">
+            <span class="icon">⏱️</span> <span class="text">Fokus Taymer</span>
+        </div>
+        <div class="side-item" id="side-expenses" onclick="clickSidebar('expenses')">
+            <span class="icon">💳</span> <span class="text">Xarajatlar</span>
+        </div>
+        <div class="side-item" id="side-settings" onclick="clickSidebar('settings')">
+            <span class="icon">⚙️</span> <span class="text">Profil Sozlamalari</span>
+        </div>
     </div>
 
     <div class="main-container">
         
-        <div class="top-navbar" id="global-top-navbar">
-            <div class="nav-tabs">
-                <button class="tab-btn" id="tab-kunlik" onclick="switchTab('kunlik')">Kunlik</button>
-                <button class="tab-btn active" id="tab-kalendar" onclick="switchTab('kalendar')">Kalendar</button>
-                <button class="tab-btn" id="tab-statistika" onclick="switchTab('statistika')">Statistika</button>
+        <div class="global-header">
+            <button class="menu-trigger" onclick="toggleSidebarMenu(true)">☰</button>
+            <div class="top-navbar" id="global-top-navbar">
+                <div class="nav-tabs">
+                    <button class="tab-btn" id="tab-kunlik" onclick="switchTab('kunlik')">Kunlik</button>
+                    <button class="tab-btn active" id="tab-kalendar" onclick="switchTab('kalendar')">Kalendar</button>
+                    <button class="tab-btn" id="tab-statistika" onclick="switchTab('statistika')">Statistika</button>
+                </div>
+                <button class="add-habit-btn" onclick="openModal()">+ Yangi</button>
             </div>
-            <button class="add-habit-btn" onclick="openModal()">+ Odat qo'shish</button>
+            <div id="section-title-header" style="display:none; font-size:14px; font-weight:700; flex:1; text-align:right;"></div>
         </div>
 
         <div id="sec-habits-group" class="app-section active-section">
@@ -357,7 +402,7 @@
 
             <div id="sub-kalendar" class="matrix-panel">
                 <div class="matrix-header">
-                    <h3 style="font-size: 14px; font-weight: 700;">Odatlar jadvali</h3>
+                    <h3 style="font-size: 13px; font-weight: 700;">Odatlar jadvali</h3>
                     <div style="font-size: 11px; color: var(--text-muted);">Iyun 2026</div>
                 </div>
                 <div class="table-container">
@@ -403,6 +448,7 @@
         <div id="sec-best" class="app-section">
             <div class="timer-card">
                 <h2>🏆 Rekordlar Paneli</h2>
+                <p style="color:var(--text-muted); font-size:13px;">Sizning eng yuqori ko'rsatkichlaringiz bu yerda jamlanadi.</p>
             </div>
         </div>
 
@@ -442,26 +488,22 @@
 
                 <div class="profile-view-mode" id="prof-view-root">
                     <div class="view-name-title" id="v-name">Kiritilmagan</div>
-                    
                     <div class="view-meta-row">
                         <div class="meta-pill"><div class="lbl">Yosh</div><div class="val" id="v-age">-</div></div>
                         <div class="meta-pill"><div class="lbl">Jins</div><div class="val" id="v-gender">-</div></div>
                         <div class="meta-pill"><div class="lbl">Status</div><div class="val">Pro</div></div>
                     </div>
-                    
                     <div class="region-badge" id="v-region">Viloyat tanlanmagan</div>
                 </div>
 
                 <div class="profile-edit-mode" id="prof-edit-root">
                     <input type="text" id="prof-name" class="inp-flat" placeholder="Ismingiz">
                     <input type="number" id="prof-age" class="inp-flat" placeholder="Yoshingiz">
-                    
                     <select id="prof-gender" class="select-flat">
                         <option value="" disabled selected>Jinsingiz</option>
                         <option value="Erkak">Erkak</option>
                         <option value="Ayol">Ayol</option>
                     </select>
-
                     <select id="prof-region" class="select-flat">
                         <option value="" disabled selected>Viloyat</option>
                         <option value="Toshkent sh.">Toshkent sh.</option>
@@ -479,7 +521,6 @@
                         <option value="Surxondaryo">Surxondaryo</option>
                         <option value="Qoraqalpog'iston">Qoraqalpog'iston R.</option>
                     </select>
-
                     <button class="btn-save" style="margin-top: 6px;" onclick="saveProfileData()">Saqlash</button>
                 </div>
             </div>
@@ -510,22 +551,46 @@
             try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
         }
 
+        // MENYUNI SURISH FUNKSIYASI
+        function toggleSidebarMenu(open) {
+            const sidebar = document.getElementById('main-sidebar');
+            const overlay = document.getElementById('menu-overlay');
+            if(open) {
+                sidebar.classList.add('open');
+                overlay.classList.add('open');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            }
+        }
+
         function clickSidebar(target) {
             triggerHaptic();
+            toggleSidebarMenu(false); // Bo'lim tanlanganda menyu avtomat yopiladi
+            
             document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
             document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active-section'));
-            document.getElementById('global-top-navbar').style.display = 'none';
+            
+            const topNavbar = document.getElementById('global-top-navbar');
+            const secTitle = document.getElementById('section-title-header');
 
             if(target === 'stats') {
                 document.getElementById('side-stats').classList.add('active');
                 document.getElementById('sec-habits-group').classList.add('active-section');
-                document.getElementById('global-top-navbar').style.display = 'flex';
+                topNavbar.style.display = 'flex';
+                secTitle.style.display = 'none';
                 switchTab('kalendar');
             } else {
                 document.getElementById(`side-${target}`).classList.add('active');
                 document.getElementById(`sec-${target}`).classList.add('active-section');
-                if (target === 'expenses') renderExpenses();
-                if (target === 'settings') { isEditMode = false; loadProfileData(); }
+                topNavbar.style.display = 'none';
+                secTitle.style.display = 'block';
+
+                // Dinamik Sarlavhalar
+                if (target === 'best') secTitle.innerText = '🏆 Rekordlar';
+                if (target === 'timer') secTitle.innerText = '⏱️ Taymer';
+                if (target === 'expenses') { secTitle.innerText = '💳 Xarajatlar'; renderExpenses(); }
+                if (target === 'settings') { secTitle.innerText = '⚙️ Profil'; isEditMode = false; loadProfileData(); }
             }
         }
 
@@ -674,12 +739,7 @@
             });
         }
 
-        // ================= RASM / AVATAR LOGIKASI (YANGI VA ISHONCHLI) =================
-        function triggerAvatarSelect() {
-            if(isEditMode) {
-                document.getElementById('avatar-file-input').click();
-            }
-        }
+        function triggerAvatarSelect() { if(isEditMode) document.getElementById('avatar-file-input').click(); }
 
         function handleAvatarUpload(event) {
             const file = event.target.files[0];
@@ -705,11 +765,7 @@
             }
         }
 
-        function toggleProfileEditMode() {
-            triggerHaptic();
-            isEditMode = !isEditMode;
-            renderProfileInterfaceState();
-        }
+        function toggleProfileEditMode() { triggerHaptic(); isEditMode = !isEditMode; renderProfileInterfaceState(); }
 
         function renderProfileInterfaceState() {
             const viewRoot = document.getElementById('prof-view-root');
@@ -718,15 +774,11 @@
             const avatarZone = document.getElementById('avatar-click-zone');
 
             if(isEditMode) {
-                viewRoot.style.display = 'none';
-                editRoot.style.display = 'flex';
-                editBtn.innerText = '❌';
-                avatarZone.style.borderColor = 'var(--cyan-accent)';
+                viewRoot.style.display = 'none'; editRoot.style.display = 'flex';
+                editBtn.innerText = '❌'; avatarZone.style.borderColor = 'var(--cyan-accent)';
             } else {
-                viewRoot.style.display = 'flex';
-                editRoot.style.display = 'none';
-                editBtn.innerText = '✏️';
-                avatarZone.style.borderColor = 'var(--border-color)';
+                viewRoot.style.display = 'flex'; editRoot.style.display = 'none';
+                editBtn.innerText = '✏️'; avatarZone.style.borderColor = 'var(--border-color)';
                 loadProfileData();
             }
         }
@@ -740,14 +792,12 @@
                 region: document.getElementById('prof-region').value
             };
             localStorage.setItem('user_profile_data_v6', JSON.stringify(profile));
-            isEditMode = false;
-            renderProfileInterfaceState();
+            isEditMode = false; renderProfileInterfaceState();
         }
 
         function loadProfileData() {
             const data = JSON.parse(localStorage.getItem('user_profile_data_v6'));
             const savedAvatar = localStorage.getItem('profile_avatar_base64_v6');
-            
             applyAvatarCSS(savedAvatar || null);
 
             if(data) {
