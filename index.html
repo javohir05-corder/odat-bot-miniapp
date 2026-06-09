@@ -51,30 +51,21 @@
         .sidebar-logo {
             font-size: 24px;
             margin-bottom: 15px;
-            cursor: pointer;
         }
 
         .side-item {
             width: 48px;
             height: 48px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             border-radius: 12px;
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
         }
 
-        .side-item span {
-            font-size: 20px;
-        }
-
-        .side-item .tooltip {
-            display: none;
-        }
+        .side-item span { font-size: 20px; }
 
         .side-item.active {
             background: #1e293b;
@@ -104,10 +95,7 @@
             border: 1px solid var(--border-color);
         }
 
-        .nav-tabs {
-            display: flex;
-            gap: 6px;
-        }
+        .nav-tabs { display: flex; gap: 6px; }
 
         .tab-btn {
             background: transparent;
@@ -137,23 +125,11 @@
         }
 
         /* APP SECTIONS */
-        .app-section {
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .app-section.active-section {
-            display: flex;
-        }
+        .app-section { display: none; flex-direction: column; gap: 14px; }
+        .app-section.active-section { display: flex; }
 
         /* 1. KUNLIK VIEW (CHECKLIST) */
-        .daily-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
+        .daily-list { display: flex; flex-direction: column; gap: 10px; }
         .daily-item {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
@@ -177,10 +153,7 @@
             font-weight: 700;
             cursor: pointer;
         }
-        .bajarish-btn.done {
-            background: var(--cyan-accent);
-            color: #000;
-        }
+        .bajarish-btn.done { background: var(--cyan-accent); color: #000; }
 
         /* 2. KALENDAR VIEW (MATRIX) */
         .matrix-panel {
@@ -191,33 +164,17 @@
             overflow-x: auto;
         }
 
-        .matrix-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
+        .matrix-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .table-container { min-width: 850px; }
-
-        .table-row-head {
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
+        .table-row-head { display: flex; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px; }
         .col-habit-name { width: 160px; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
         .col-days-grid { flex: 1; display: grid; grid-template-columns: repeat(31, 1fr); gap: 4px; text-align: center; }
         .day-num-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
         .col-stats-head { width: 80px; display: flex; justify-content: space-around; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
-
         .habit-matrix-row { display: flex; align-items: center; padding: 6px 0; }
         .habit-title-cell { width: 160px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; padding-right: 8px;}
         .delete-icon { cursor: pointer; opacity: 0.2; font-size: 12px; }
         .habit-matrix-row:hover .delete-icon { opacity: 1; }
-
         .dots-grid { flex: 1; display: grid; grid-template-columns: repeat(31, 1fr); gap: 4px; }
         .matrix-dot { aspect-ratio: 1; border-radius: 50%; background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06); cursor: pointer; }
         .matrix-dot.checked { background-color: var(--cyan-accent); border-color: var(--cyan-accent); box-shadow: 0 0 8px var(--cyan-glow); }
@@ -229,7 +186,6 @@
         .card-icon { font-size: 16px; }
         .card-val { font-size: 18px; font-weight: 800; margin: 4px 0; }
         .card-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600; }
-
         .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; }
         .svg-chart-container { width: 100%; height: 160px; margin-top: 10px; }
 
@@ -239,14 +195,22 @@
         .timer-controls { display: flex; gap: 10px; }
         .btn-action { background: #1e293b; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-        /* 5. XARAJATLAR PANEL */
-        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-        .expense-row { display: flex; justify-content: space-between; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; font-size: 14px; }
+        /* 5. DYNAMIC XARAJATLAR PANEL */
+        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+        .expense-form { display: flex; gap: 8px; }
+        .expense-list { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; }
+        .expense-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; font-size: 14px; border: 1px solid var(--border-color); }
 
-        /* 6. SOZLAMALAR PANEL (PROFIL TAHRIRLASH) */
-        .profile-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-        .inp-flat { background: var(--bg-dark); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
-        .inp-flat:focus { border-color: var(--cyan-accent); }
+        /* 6. PROFIL PANEL (YANGILANGAN SOZLAMALAR) */
+        .profile-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+        .avatar-container { position: relative; width: 85px; height: 85px; border-radius: 50%; border: 2px dashed var(--cyan-accent); display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(255,255,255,0.02); cursor: pointer; }
+        .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-placeholder { font-size: 11px; color: var(--cyan-accent); text-align: center; padding: 4px; font-weight: 600; }
+        .profile-form-grid { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+        
+        .inp-flat, .select-flat { background: var(--bg-dark); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; color: #fff; font-size: 14px; outline: none; width: 100%; }
+        .inp-flat:focus, .select-flat:focus { border-color: var(--cyan-accent); }
+        .select-flat option { background: var(--bg-dark); color: #fff; }
 
         /* POPUP MODAL FORM */
         .form-overlay { display: none; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; justify-content: center; align-items: center; padding: 20px; }
@@ -279,7 +243,6 @@
         </div>
 
         <div id="sec-habits-group" class="app-section active-section">
-            
             <div id="sub-kunlik" style="display: none;" class="daily-list"></div>
 
             <div id="sub-kalendar" class="matrix-panel">
@@ -299,31 +262,11 @@
 
             <div id="sub-statistika" style="display: none;" class="app-section active-section">
                 <div class="stats-grid-row">
-                    <div class="stat-mini-card">
-                        <div class="card-icon" style="color: var(--cyan-accent);">🎯</div>
-                        <div class="card-val" id="st-total-habits">0</div>
-                        <div class="card-lbl">Jami odatlar</div>
-                    </div>
-                    <div class="stat-mini-card">
-                        <div class="card-icon" style="color: var(--cyan-accent);">✓</div>
-                        <div class="card-val" id="st-today-done">0/0</div>
-                        <div class="card-lbl">Bugun bajarildi</div>
-                    </div>
-                    <div class="stat-mini-card">
-                        <div class="card-icon" style="color: var(--card-orange);">🔥</div>
-                        <div class="card-val" id="st-week-done">0</div>
-                        <div class="card-lbl">Bu hafta bajarildi</div>
-                    </div>
-                    <div class="stat-mini-card">
-                        <div class="card-icon" style="color: var(--card-blue);">⚡</div>
-                        <div class="card-val" id="st-week-trend">0%</div>
-                        <div class="card-lbl">Haftalik trend</div>
-                    </div>
-                    <div class="stat-mini-card">
-                        <div class="card-icon" style="color: var(--card-purple);">🏅</div>
-                        <div class="card-val" id="st-all-done">0</div>
-                        <div class="card-lbl">Jami bajarilgan</div>
-                    </div>
+                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--cyan-accent);">🎯</div><div class="card-val" id="st-total-habits">0</div><div class="card-lbl">Jami odatlar</div></div>
+                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--cyan-accent);">✓</div><div class="card-val" id="st-today-done">0/0</div><div class="card-lbl">Bugun bajarildi</div></div>
+                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--card-orange);">🔥</div><div class="card-val" id="st-week-done">0</div><div class="card-lbl">Bu hafta bajarildi</div></div>
+                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--card-blue);">⚡</div><div class="card-val" id="st-week-trend">0%</div><div class="card-lbl">Haftalik trend</div></div>
+                    <div class="stat-mini-card"><div class="card-icon" style="color:var(--card-purple);">🏅</div><div class="card-val" id="st-all-done">0</div><div class="card-lbl">Jami bajarilgan</div></div>
                 </div>
 
                 <div class="chart-panel">
@@ -341,13 +284,6 @@
                             <circle cx="315" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-4"/>
                             <circle cx="385" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-5"/>
                             <circle cx="455" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-6"/>
-                            <text x="35" y="142" fill="#64748b" font-size="11" text-anchor="middle">Yak</text>
-                            <text x="105" y="142" fill="#64748b" font-size="11" text-anchor="middle">Dush</text>
-                            <text x="175" y="142" fill="#64748b" font-size="11" text-anchor="middle">Sesh</text>
-                            <text x="245" y="142" fill="#64748b" font-size="11" text-anchor="middle">Chor</text>
-                            <text x="315" y="142" fill="#64748b" font-size="11" text-anchor="middle">Pay</text>
-                            <text x="385" y="142" fill="#64748b" font-size="11" text-anchor="middle">Jum</text>
-                            <text x="455" y="142" fill="#64748b" font-size="11" text-anchor="middle">Shan</text>
                         </svg>
                     </div>
                 </div>
@@ -375,19 +311,59 @@
         <div id="sec-expenses" class="app-section">
             <div class="expense-card">
                 <h3>💳 Moliyaviy Xarajatlar</h3>
-                <div class="expense-row"><span>Tushlik (Kafeda)</span><span style="color: var(--card-orange); font-weight:700;">-45,000 UZS</span></div>
-                <div class="expense-row"><span>Yandeks Taksi</span><span style="color: var(--card-orange); font-weight:700;">-18,000 UZS</span></div>
-                <div class="expense-row"><span>Kitob xaridi</span><span style="color: var(--card-orange); font-weight:700;">-65,000 UZS</span></div>
+                <p style="color: var(--text-muted); font-size:12px; margin-top:-6px;">Kunlik xarajatlaringizni kiriting va hisoblang</p>
+                
+                <div class="expense-form">
+                    <input type="text" id="exp-title-inp" class="inp-flat" placeholder="Xarajat nomi (Masalan: Kafe)" style="flex:2;">
+                    <input type="number" id="exp-amount-inp" class="inp-flat" placeholder="Summa (UZS)" style="flex:1;">
+                    <button class="btn-save" onclick="addExpenseItem()" style="padding: 0 16px; border-radius:8px;">+</button>
+                </div>
+
+                <div class="expense-list" id="expense-list-root">
+                    </div>
             </div>
         </div>
 
         <div id="sec-settings" class="app-section">
             <div class="profile-card">
                 <h3>⚙️ Profilni tahrirlash</h3>
-                <p style="color: var(--text-muted); font-size:12px;">Telegram profilingiz ma'lumotlarini shu yerda yangilang.</p>
-                <input type="text" id="prof-name" class="inp-flat" placeholder="Ismingiz" value="Foydalanuvchi">
-                <input type="text" id="prof-bio" class="inp-flat" placeholder="Sarlavha (Bio)" value="Intizom va O'sish">
-                <button class="btn-save" style="margin-top: 6px;" onclick="saveProfile()">Profilni Saqlash</button>
+                
+                <div class="avatar-container" onclick="document.getElementById('avatar-file-input').click()">
+                    <img id="profile-avatar-img" src="" style="display: none;">
+                    <div id="avatar-text-placeholder" class="avatar-placeholder">Rasm Yuklash (Click)</div>
+                </div>
+                <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+
+                <div class="profile-form-grid">
+                    <input type="text" id="prof-name" class="inp-flat" placeholder="Ismingiz">
+                    <input type="number" id="prof-age" class="inp-flat" placeholder="Yoshingiz">
+                    
+                    <select id="prof-gender" class="select-flat">
+                        <option value="" disabled selected>Jinsingizni tanlang</option>
+                        <option value="Erkak">Erkak</option>
+                        <option value="Ayol">Ayol</option>
+                    </select>
+
+                    <select id="prof-region" class="select-flat">
+                        <option value="" disabled selected>Viloyatni tanlang</option>
+                        <option value="Toshkent sh.">Toshkent sh.</option>
+                        <option value="Toshkent vil.">Toshkent vil.</option>
+                        <option value="Andijon">Andijon</option>
+                        <option value="Buxoro">Buxoro</option>
+                        <option value="Farg'ona">Farg'ona</option>
+                        <option value="Jizzax">Jizzax</option>
+                        <option value="Xorazm">Xorazm</option>
+                        <option value="Namangan">Namangan</option>
+                        <option value="Navoiy">Navoiy</option>
+                        <option value="Qashqadaryo">Qashqadaryo</option>
+                        <option value="Samarqand">Samarqand</option>
+                        <option value="Sirdaryo">Sirdaryo</option>
+                        <option value="Surxondaryo">Surxondaryo</option>
+                        <option value="Qoraqalpog'iston">Qoraqalpog'iston Respublikasi</option>
+                    </select>
+
+                    <button class="btn-save" style="margin-top: 6px;" onclick="saveProfileData()">Profilni Saqlash</button>
+                </div>
             </div>
         </div>
 
@@ -408,22 +384,19 @@
         const tg = window.Telegram.WebApp;
         tg.expand(); tg.ready();
 
-        let habits = JSON.parse(localStorage.getItem('habits_matrix_v4')) || [
-            { id: 1, name: "Ertalab yugurish", history: [1, 2] },
-            { id: 2, name: "10 bet kitob o'qish", history: [2, 3] },
-            { id: 3, name: "2 litr suv ichish", history: [1, 2, 3] }
-        ];
+        // Ma'lumotlar bazasi (LocalStorage)
+        let habits = JSON.parse(localStorage.getItem('habits_matrix_v5')) || [];
+        let expenses = JSON.parse(localStorage.getItem('user_expenses_v5')) || [];
 
         function triggerHaptic() {
             try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
         }
 
-        // SIDEBAR CLICK
+        // SIDEBAR NAVIGATION CLICK
         function clickSidebar(target) {
             triggerHaptic();
             document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
             document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active-section'));
-            
             document.getElementById('global-top-navbar').style.display = 'none';
 
             if(target === 'stats') {
@@ -434,10 +407,12 @@
             } else {
                 document.getElementById(`side-${target}`).classList.add('active');
                 document.getElementById(`sec-${target}`).classList.add('active-section');
+                if (target === 'expenses') renderExpenses();
+                if (target === 'settings') loadProfileData();
             }
         }
 
-        // TOP NAV TABS CLICK
+        // TOP TAB BARS CLICK
         function switchTab(tabName) {
             triggerHaptic();
             document.getElementById('sub-kunlik').style.display = 'none';
@@ -470,16 +445,13 @@
             if (habit) {
                 const idx = habit.history.indexOf(dayNumber);
                 if (idx > -1) habit.history.splice(idx, 1);
-                else {
-                    habit.history.push(dayNumber);
-                    try { tg.sendData(`🎯 ${habit.name} | Bajarildi (Kun: ${dayNumber})`); } catch(e){}
-                }
+                else habit.history.push(dayNumber);
                 saveAndRender();
             }
         }
 
         function saveAndRender() {
-            localStorage.setItem('habits_matrix_v4', JSON.stringify(habits));
+            localStorage.setItem('habits_matrix_v5', JSON.stringify(habits));
             renderMatrixTable();
             renderDailyChecklist();
             calculateStats();
@@ -487,12 +459,10 @@
 
         function renderDailyChecklist() {
             const currentDay = new Date().getDate();
-            const root = document.getElementById('sub-kunlik');
-            root.innerHTML = '';
+            const root = document.getElementById('sub-kunlik'); root.innerHTML = '';
             habits.forEach(h => {
                 const isDone = h.history.includes(currentDay);
-                const item = document.createElement('div');
-                item.className = 'daily-item';
+                const item = document.createElement('div'); item.className = 'daily-item';
                 item.innerHTML = `
                     <div class="daily-info"><h4>${h.name}</h4><p>${isDone ? 'Bugun bajarildi ✨' : 'Hali bajarilmadi'}</p></div>
                     <button class="bajarish-btn ${isDone ? 'done' : ''}" onclick="toggleDayCheck(${h.id}, ${currentDay})">${isDone ? '✓ Bajarildi' : 'Bajarish'}</button>
@@ -550,12 +520,114 @@
                 let m = habits.length || 1;
                 let y = 120 - ((weeklyCounts[i] / m) * 90);
                 points.push(`${xCoords[i]} ${y}`);
-                let d = document.getElementById(`dot-${i}`); if(d) d.setAttribute('cy', y);
             }
             document.getElementById('chart-line-path').setAttribute('d', "M " + points.join(" L "));
         }
 
-        // TAYMER LOGIKASI
+        // DYNAMIC XARAJATLAR LOOGIKASI
+        function addExpenseItem() {
+            triggerHaptic();
+            const titleInp = document.getElementById('exp-title-inp');
+            const amountInp = document.getElementById('exp-amount-inp');
+            
+            const title = titleInp.value.trim();
+            const amount = amountInp.value.trim();
+
+            if(!title || !amount) return;
+
+            expenses.unshift({ id: Date.now(), title: title, amount: parseInt(amount).toLocaleString() });
+            localStorage.setItem('user_expenses_v5', JSON.stringify(expenses));
+            
+            titleInp.value = ''; amountInp.value = '';
+            renderExpenses();
+        }
+
+        function deleteExpense(id) {
+            triggerHaptic();
+            expenses = expenses.filter(e => e.id !== id);
+            localStorage.setItem('user_expenses_v5', JSON.stringify(expenses));
+            renderExpenses();
+        }
+
+        function renderExpenses() {
+            const root = document.getElementById('expense-list-root');
+            root.innerHTML = '';
+            if(expenses.length === 0) {
+                root.innerHTML = `<p style="color:var(--text-muted); font-size:13px; text-align:center; padding:10px;">Xarajatlar yo'q</p>`;
+                return;
+            }
+            expenses.forEach(e => {
+                const row = document.createElement('div');
+                row.className = 'expense-row';
+                row.innerHTML = `
+                    <span>${e.title}</span>
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <span style="color:var(--card-orange); font-weight:700;">-${e.amount} UZS</span>
+                        <span style="cursor:pointer; opacity:0.5;" onclick="deleteExpense(${e.id})">❌</span>
+                    </div>
+                `;
+                root.appendChild(row);
+            });
+        }
+
+        // PROFIL AVATAR RASM YUKLASH LOGIKASI
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgData = e.target.result;
+                    localStorage.setItem('profile_avatar_base64', imgData);
+                    showAvatar(imgData);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function showAvatar(src) {
+            const img = document.getElementById('profile-avatar-img');
+            const placeholder = document.getElementById('avatar-text-placeholder');
+            if(src) {
+                img.src = src; img.style.display = 'block'; placeholder.style.display = 'none';
+            } else {
+                img.style.display = 'none'; placeholder.style.display = 'block';
+            }
+        }
+
+        // PROFIL MA'LUMOTLARINI SAQLASH VA YUKLASH
+        function saveProfileData() {
+            triggerHaptic();
+            const profile = {
+                name: document.getElementById('prof-name').value.trim(),
+                age: document.getElementById('prof-age').value,
+                gender: document.getElementById('prof-gender').value,
+                region: document.getElementById('prof-region').value
+            };
+            localStorage.setItem('user_profile_data_v5', JSON.stringify(profile));
+            
+            try {
+                tg.sendData(`⚙️ Profil yangilandi: ${profile.name}, ${profile.region}`);
+            } catch(e){}
+            
+            alert("Profil ma'lumotlari muvaffaqiyatli saqlandi!");
+        }
+
+        function loadProfileData() {
+            const data = JSON.parse(localStorage.getItem('user_profile_data_v5'));
+            const savedAvatar = localStorage.getItem('profile_avatar_base64');
+            
+            if(savedAvatar) showAvatar(savedAvatar);
+            else showAvatar(null);
+
+            if(data) {
+                document.getElementById('prof-name').value = data.name || '';
+                document.getElementById('prof-age').value = data.age || '';
+                document.getElementById('prof-gender').value = data.gender || '';
+                document.getElementById('prof-region').value = data.region || '';
+            }
+        }
+
+        // TIMER LOGIC
         let timer, timeLeft = 1500, isRunning = false;
         function toggleTimer() {
             triggerHaptic();
@@ -574,14 +646,7 @@
             document.getElementById('timer-text').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
         }
 
-        // PROFIL TAHRIRLASH SAQLASH
-        function saveProfile() {
-            triggerHaptic();
-            const name = document.getElementById('prof-name').value;
-            alert("Profil muvaffaqiyatli saqlandi: " + name);
-        }
-
-        // INITIAL START
+        // INITIAL STARTUP
         renderMatrixTable();
         switchTab('kalendar');
     </script>
