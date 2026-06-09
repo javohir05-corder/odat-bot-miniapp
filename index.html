@@ -41,7 +41,7 @@
             letter-spacing: -0.2px;
         }
 
-        /* ------------------ SURILIB CHIQUVCHI MENYU (DRAWER SIDEBAR) ------------------ */
+        /* ------------------ SURILIB CHIQUVCHI MENYU ------------------ */
         .sidebar-overlay {
             position: fixed;
             top: 0;
@@ -63,7 +63,7 @@
         .sidebar {
             position: fixed;
             top: 0;
-            left: -220px; /* Boshida chapda yashirin */
+            left: -220px;
             width: 200px;
             height: 100%;
             background: var(--sidebar-bg);
@@ -77,7 +77,7 @@
             transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .sidebar.open {
-            left: 0; /* Surilib chiqish */
+            left: 0;
         }
 
         .sidebar-header {
@@ -138,7 +138,6 @@
             width: 100%;
         }
 
-        /* YUQORI GLOBAL PANEL VA HAMBURGER */
         .global-header {
             display: flex;
             align-items: center;
@@ -200,9 +199,7 @@
             box-shadow: 0 4px 12px var(--cyan-glow);
             transition: transform 0.2s;
         }
-        .add-habit-btn:active { transform: scale(0.96); }
 
-        /* SECTIONS */
         .app-section { display: none; flex-direction: column; gap: 16px; width: 100%; }
         .app-section.active-section { display: flex; }
 
@@ -269,7 +266,7 @@
         .stats-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-x: auto; width: 100%; }
         .stat-mini-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; min-width: 90px; }
         .card-icon { font-size: 16px; }
-        .card-val { font-size: 16px; font-weight: 800; margin: 4px 0; color: var(--cyan-accent); }
+        .card-val { font-size: 15px; font-weight: 800; margin: 4px 0; color: var(--cyan-accent); }
         .card-lbl { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
         
         .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; width: 100%; }
@@ -280,60 +277,30 @@
         .timer-display { font-size: 48px; font-weight: 800; color: var(--cyan-accent); text-shadow: 0 0 15px var(--cyan-glow); font-variant-numeric: tabular-nums; }
         .timer-controls { display: flex; gap: 10px; }
 
-        /* XARAJATLAR */
+        /* XARAJATLAR INTEGRATSIYASI */
+        .expense-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .expense-mini-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px; text-align: center; }
+        .exp-box-val { font-size: 16px; font-weight: 800; color: var(--card-orange); margin-top: 4px; }
+        
         .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; width: 100%; }
         .expense-form { display: flex; gap: 8px; }
-        .expense-list { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
-        .expense-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 12px; border-radius: 10px; font-size: 13px; border: 1px solid var(--border-color); }
+        .expense-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; }
+        .expense-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); }
+        .exp-meta-left { display: flex; flex-direction: column; gap: 2px; }
+        .exp-time-lbl { font-size: 10px; color: var(--text-muted); }
 
         /* PROFIL PANEL */
         .profile-container-box {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            padding: 20px;
-            width: 100%;
-            max-width: 360px;
-            margin: 0 auto;
-            position: relative;
+            background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px; width: 100%; max-width: 360px; margin: 0 auto; position: relative;
         }
-
         .edit-profile-trigger {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 28px;
-            height: 28px;
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 11px;
-            color: var(--text-muted);
-            z-index: 5;
+            position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; background: var(--sidebar-bg); border: 1px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; color: var(--text-muted); z-index: 5;
         }
-
         .profile-avatar-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
         .avatar-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--border-color);
-            background: #131924;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--border-color); background: #131924; background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;
         }
         .avatar-edit-label { font-size: 10px; color: var(--cyan-accent); font-weight: 600; text-align: center; }
-
         .profile-view-mode { display: flex; flex-direction: column; gap: 14px; width: 100%; }
         .profile-edit-mode { display: none; flex-direction: column; gap: 10px; width: 100%; }
         .view-name-title { font-size: 18px; font-weight: 700; text-align: center; color: var(--text-main); }
@@ -448,7 +415,7 @@
         <div id="sec-best" class="app-section">
             <div class="timer-card">
                 <h2>🏆 Rekordlar Paneli</h2>
-                <p style="color:var(--text-muted); font-size:13px;">Sizning eng yuqori ko'rsatkichlaringiz bu yerda jamlanadi.</p>
+                <p style="color:var(--text-muted); font-size:13px;">Eng yuqori natijalar.</p>
             </div>
         </div>
 
@@ -464,8 +431,19 @@
         </div>
 
         <div id="sec-expenses" class="app-section">
+            <div class="expense-stats-row">
+                <div class="expense-mini-box">
+                    <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Haftalik Xarajat</div>
+                    <div class="exp-box-val" id="exp-stat-weekly">0 UZS</div>
+                </div>
+                <div class="expense-mini-box">
+                    <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Oylik Xarajat</div>
+                    <div class="exp-box-val" id="exp-stat-monthly" style="color:var(--card-blue);">0 UZS</div>
+                </div>
+            </div>
+
             <div class="expense-card">
-                <h3 style="font-size:14px;">💳 Kunlik Xarajatlar</h3>
+                <h3 style="font-size:13px;">💳 Xarajat qo'shish</h3>
                 <div class="expense-form">
                     <input type="text" id="exp-title-inp" class="inp-flat" placeholder="Xarajat nomi" style="flex:2;">
                     <input type="number" id="exp-amount-inp" class="inp-flat" placeholder="Summa" style="flex:1;">
@@ -478,7 +456,6 @@
         <div id="sec-settings" class="app-section">
             <div class="profile-container-box">
                 <div class="edit-profile-trigger" id="profile-edit-btn" onclick="toggleProfileEditMode()">✏️</div>
-
                 <div class="profile-avatar-wrapper">
                     <div class="avatar-circle" id="avatar-click-zone" onclick="triggerAvatarSelect()">
                         <div id="avatar-text-placeholder" class="avatar-edit-label">Rasm yuklash</div>
@@ -544,30 +521,23 @@
         tg.expand(); tg.ready();
 
         let habits = JSON.parse(localStorage.getItem('habits_matrix_v6')) || [];
-        let expenses = JSON.parse(localStorage.getItem('user_expenses_v6')) || [];
+        let expenses = JSON.parse(localStorage.getItem('user_expenses_v7')) || [];
         let isEditMode = false;
 
-        function triggerHaptic() {
-            try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
-        }
+        function triggerHaptic() { try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {} }
 
-        // MENYUNI SURISH FUNKSIYASI
         function toggleSidebarMenu(open) {
             const sidebar = document.getElementById('main-sidebar');
             const overlay = document.getElementById('menu-overlay');
-            if(open) {
-                sidebar.classList.add('open');
-                overlay.classList.add('open');
-            } else {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('open');
-            }
+            if(open) { sidebar.classList.add('open'); overlay.classList.add('open'); } 
+            else { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
         }
+
+        document.getElementById('menu-overlay').addEventListener('touchstart', () => toggleSidebarMenu(false));
 
         function clickSidebar(target) {
             triggerHaptic();
-            toggleSidebarMenu(false); // Bo'lim tanlanganda menyu avtomat yopiladi
-            
+            toggleSidebarMenu(false);
             document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
             document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active-section'));
             
@@ -577,16 +547,13 @@
             if(target === 'stats') {
                 document.getElementById('side-stats').classList.add('active');
                 document.getElementById('sec-habits-group').classList.add('active-section');
-                topNavbar.style.display = 'flex';
-                secTitle.style.display = 'none';
+                topNavbar.style.display = 'flex'; secTitle.style.display = 'none';
                 switchTab('kalendar');
             } else {
                 document.getElementById(`side-${target}`).classList.add('active');
                 document.getElementById(`sec-${target}`).classList.add('active-section');
-                topNavbar.style.display = 'none';
-                secTitle.style.display = 'block';
+                topNavbar.style.display = 'none'; secTitle.style.display = 'block';
 
-                // Dinamik Sarlavhalar
                 if (target === 'best') secTitle.innerText = '🏆 Rekordlar';
                 if (target === 'timer') secTitle.innerText = '⏱️ Taymer';
                 if (target === 'expenses') { secTitle.innerText = '💳 Xarajatlar'; renderExpenses(); }
@@ -633,9 +600,7 @@
 
         function saveAndRender() {
             localStorage.setItem('habits_matrix_v6', JSON.stringify(habits));
-            renderMatrixTable();
-            renderDailyChecklist();
-            calculateStats();
+            renderMatrixTable(); renderDailyChecklist(); calculateStats();
         }
 
         function renderDailyChecklist() {
@@ -681,7 +646,6 @@
         function calculateStats() {
             const currentDay = new Date().getDate();
             document.getElementById('st-total-habits').innerText = habits.length;
-            
             let todayDone = 0; habits.forEach(h => { if(h.history.includes(currentDay)) todayDone++; });
             document.getElementById('st-today-done').innerText = `${todayDone}/${habits.length}`;
 
@@ -706,6 +670,7 @@
             document.getElementById('chart-line-path').setAttribute('d', "M " + points.join(" L "));
         }
 
+        // ================= SANALI VA STATISTIKALI XARAJATLAR TIZIMI =================
         function addExpenseItem() {
             triggerHaptic();
             const titleInp = document.getElementById('exp-title-inp');
@@ -713,8 +678,19 @@
             const title = titleInp.value.trim(), amount = amountInp.value.trim();
             if(!title || !amount) return;
 
-            expenses.unshift({ id: Date.now(), title: title, amount: parseInt(amount).toLocaleString() });
-            localStorage.setItem('user_expenses_v6', JSON.stringify(expenses));
+            const now = new Date();
+            const timeString = now.toLocaleDateString('uz-UZ', {day:'2-digit', month:'2-digit', year:'numeric'}) + ', ' + 
+                               now.toLocaleTimeString('uz-UZ', {hour:'2-digit', minute:'2-digit'});
+
+            expenses.unshift({ 
+                id: Date.now(), 
+                title: title, 
+                amount: parseInt(amount), 
+                datetime: timeString,
+                timestamp: now.getTime()
+            });
+
+            localStorage.setItem('user_expenses_v7', JSON.stringify(expenses));
             titleInp.value = ''; amountInp.value = '';
             renderExpenses();
         }
@@ -722,25 +698,50 @@
         function deleteExpense(id) {
             triggerHaptic();
             expenses = expenses.filter(e => e.id !== id);
-            localStorage.setItem('user_expenses_v6', JSON.stringify(expenses));
+            localStorage.setItem('user_expenses_v7', JSON.stringify(expenses));
             renderExpenses();
         }
 
         function renderExpenses() {
             const root = document.getElementById('expense-list-root'); root.innerHTML = '';
+            
+            let totalWeekly = 0;
+            let totalMonthly = 0;
+            const now = new Date().getTime();
+            const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+            const oneMonthMs = 30 * 24 * 60 * 60 * 1000;
+
             if(expenses.length === 0) {
                 root.innerHTML = `<p style="color:var(--text-muted); font-size:12px; text-align:center; padding:16px;">Xarajatlar yo'q</p>`;
+                document.getElementById('exp-stat-weekly').innerText = "0 UZS";
+                document.getElementById('exp-stat-monthly').innerText = "0 UZS";
                 return;
             }
+
             expenses.forEach(e => {
+                const diff = now - (e.timestamp || e.id);
+                if(diff <= oneWeekMs) totalWeekly += e.amount;
+                if(diff <= oneMonthMs) totalMonthly += e.amount;
+
                 const row = document.createElement('div'); row.className = 'expense-row';
-                row.innerHTML = `<span>${e.title}</span><div style="display:flex; gap:10px; align-items:center;"><span style="color:var(--card-orange); font-weight:700;">-${e.amount} UZS</span><span style="cursor:pointer;" onclick="deleteExpense(${e.id})">❌</span></div>`;
+                row.innerHTML = `
+                    <div class="exp-meta-left">
+                        <span style="font-size:13px; font-weight:600;">${e.title}</span>
+                        <span class="exp-time-lbl">${e.datetime || 'Yaqinda'}</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span style="color:var(--card-orange); font-weight:700; font-size:13px;">-${e.amount.toLocaleString()} UZS</span>
+                        <span style="cursor:pointer; font-size:11px;" onclick="deleteExpense(${e.id})">❌</span>
+                    </div>
+                `;
                 root.appendChild(row);
             });
+
+            document.getElementById('exp-stat-weekly').innerText = totalWeekly.toLocaleString() + " UZS";
+            document.getElementById('exp-stat-monthly').innerText = totalMonthly.toLocaleString() + " UZS";
         }
 
         function triggerAvatarSelect() { if(isEditMode) document.getElementById('avatar-file-input').click(); }
-
         function handleAvatarUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -752,44 +753,28 @@
                 reader.readAsDataURL(file);
             }
         }
-
         function applyAvatarCSS(base64Data) {
             const circle = document.getElementById('avatar-click-zone');
             const placeholder = document.getElementById('avatar-text-placeholder');
-            if(base64Data) {
-                circle.style.backgroundImage = `url('${base64Data}')`;
-                placeholder.style.display = 'none';
-            } else {
-                circle.style.backgroundImage = 'none';
-                placeholder.style.display = 'block';
-            }
+            if(base64Data) { circle.style.backgroundImage = `url('${base64Data}')`; placeholder.style.display = 'none'; } 
+            else { circle.style.backgroundImage = 'none'; placeholder.style.display = 'block'; }
         }
 
         function toggleProfileEditMode() { triggerHaptic(); isEditMode = !isEditMode; renderProfileInterfaceState(); }
-
         function renderProfileInterfaceState() {
             const viewRoot = document.getElementById('prof-view-root');
             const editRoot = document.getElementById('prof-edit-root');
             const editBtn = document.getElementById('profile-edit-btn');
             const avatarZone = document.getElementById('avatar-click-zone');
-
-            if(isEditMode) {
-                viewRoot.style.display = 'none'; editRoot.style.display = 'flex';
-                editBtn.innerText = '❌'; avatarZone.style.borderColor = 'var(--cyan-accent)';
-            } else {
-                viewRoot.style.display = 'flex'; editRoot.style.display = 'none';
-                editBtn.innerText = '✏️'; avatarZone.style.borderColor = 'var(--border-color)';
-                loadProfileData();
-            }
+            if(isEditMode) { viewRoot.style.display = 'none'; editRoot.style.display = 'flex'; editBtn.innerText = '❌'; avatarZone.style.borderColor = 'var(--cyan-accent)'; } 
+            else { viewRoot.style.display = 'flex'; editRoot.style.display = 'none'; editBtn.innerText = '✏️'; avatarZone.style.borderColor = 'var(--border-color)'; loadProfileData(); }
         }
 
         function saveProfileData() {
             triggerHaptic();
             const profile = {
-                name: document.getElementById('prof-name').value.trim(),
-                age: document.getElementById('prof-age').value,
-                gender: document.getElementById('prof-gender').value,
-                region: document.getElementById('prof-region').value
+                name: document.getElementById('prof-name').value.trim(), age: document.getElementById('prof-age').value,
+                gender: document.getElementById('prof-gender').value, region: document.getElementById('prof-region').value
             };
             localStorage.setItem('user_profile_data_v6', JSON.stringify(profile));
             isEditMode = false; renderProfileInterfaceState();
@@ -799,31 +784,22 @@
             const data = JSON.parse(localStorage.getItem('user_profile_data_v6'));
             const savedAvatar = localStorage.getItem('profile_avatar_base64_v6');
             applyAvatarCSS(savedAvatar || null);
-
             if(data) {
-                document.getElementById('prof-name').value = data.name || '';
-                document.getElementById('prof-age').value = data.age || '';
-                document.getElementById('prof-gender').value = data.gender || '';
-                document.getElementById('prof-region').value = data.region || '';
-
+                document.getElementById('prof-name').value = data.name || ''; document.getElementById('prof-age').value = data.age || '';
+                document.getElementById('prof-gender').value = data.gender || ''; document.getElementById('prof-region').value = data.region || '';
                 document.getElementById('v-name').innerText = data.name || 'Kiritilmagan';
                 document.getElementById('v-age').innerText = data.age ? data.age + ' yosh' : '-';
-                document.getElementById('v-gender').innerText = data.gender || '-';
-                document.getElementById('v-region').innerText = data.region || 'Viloyat tanlanmagan';
+                document.getElementById('v-gender').innerText = data.gender || '-'; document.getElementById('v-region').innerText = data.region || 'Viloyat tanlanmagan';
             }
         }
 
-        // TIMER LOGIC
         let timer, timeLeft = 1500, isRunning = false;
         function toggleTimer() {
             triggerHaptic();
             if(isRunning) { clearInterval(timer); isRunning = false; }
             else {
                 isRunning = true;
-                timer = setInterval(() => {
-                    if(timeLeft <= 0) { clearInterval(timer); isRunning = false; }
-                    else { timeLeft--; updateTimerDisplay(); }
-                }, 1000);
+                timer = setInterval(() => { if(timeLeft <= 0) { clearInterval(timer); isRunning = false; } else { timeLeft--; updateTimerDisplay(); } }, 1000);
             }
         }
         function resetTimer() { triggerHaptic(); clearInterval(timer); isRunning = false; timeLeft = 1500; updateTimerDisplay(); }
@@ -836,4 +812,4 @@
         switchTab('kalendar');
     </script>
 </body>
-</html>
+</html>s
