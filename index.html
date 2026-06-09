@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Odatlarim PRO - Ultra Dashboard</title>
+    <title>Odatlar Dashboard PRO</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-main: #0c0f16;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --lime-neon: #7fff00;
-            --lime-glow: rgba(127, 255, 0, 0.4);
-            --text-white: #ffffff;
-            --text-gray: #7e8b9b;
+            --bg-dark: #0b111e;
+            --panel-bg: #121a2e;
+            --border-color: #1e293b;
+            --cyan-accent: #10b981; 
+            --cyan-glow: rgba(16, 185, 129, 0.25);
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+            --card-orange: #f97316;
+            --card-blue: #3b82f6;
+            --card-purple: #a855f7;
         }
 
         * {
@@ -26,362 +29,408 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: radial-gradient(circle at 50% 20%, #1a2230 0%, var(--bg-main) 100%);
-            color: var(--text-white);
-            padding: 16px;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 12px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
-        .brand-header {
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        .brand-header h1 {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .brand-header h1 span {
-            color: var(--lime-neon);
-            text-shadow: 0 0 12px var(--lime-glow);
-        }
-
-        .brand-header p {
-            color: var(--text-gray);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-top: 2px;
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 16px;
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 10px 35px rgba(0,0,0,0.6);
-        }
-
-        .panel-header {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-gray);
-            font-weight: 800;
-            margin-bottom: 12px;
+        /* TOP NAVIGATION */
+        .top-navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--panel-bg);
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
 
-        .dashboard-layout {
+        .nav-tabs {
+            display: flex;
+            gap: 6px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #1e293b;
+            color: var(--text-main);
+        }
+
+        .add-habit-btn {
+            background: var(--cyan-accent);
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* VIEWS CONTROL */
+        .app-view {
+            display: none;
+        }
+        .app-view.active-view {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
-        .stat-flex {
+        /* 1. KALENDAR VIEW PANELS */
+        .matrix-panel {
+            background: var(--panel-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        .matrix-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .matrix-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .month-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .table-container {
+            min-width: 850px;
+        }
+
+        .table-row-head {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .col-habit-name {
+            width: 180px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .col-days-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(31, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .day-num-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .col-stats-head {
+            width: 80px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .habits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .habit-matrix-row {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.01);
+            padding: 8px 0;
+            border-radius: 8px;
+        }
+
+        .habit-title-cell {
+            width: 180px;
+            font-size: 14px;
+            font-weight: 600;
+            padding-right: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
         }
 
-        .circle-box {
-            position: relative;
-            width: 76px;
-            height: 76px;
+        .delete-icon {
+            font-size: 11px;
+            cursor: pointer;
+            opacity: 0.3;
+            margin-right: 8px;
         }
+        .habit-matrix-row:hover .delete-icon { opacity: 1; }
 
-        .circle-box svg {
-            width: 76px;
-            height: 76px;
-            transform: rotate(-90deg);
-        }
-
-        .c-bg { fill: none; stroke: rgba(255,255,255,0.04); stroke-width: 7; }
-        .c-fill {
-            fill: none;
-            stroke: var(--lime-neon);
-            stroke-width: 7;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.4s ease;
-        }
-
-        .circle-inner-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--lime-neon);
-            text-shadow: 0 0 10px var(--lime-glow);
-        }
-
-        .stat-rows {
+        .dots-grid {
             flex: 1;
+            display: grid;
+            grid-template-columns: repeat(31, 1fr);
+            gap: 4px;
+        }
+
+        .matrix-dot {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+        }
+
+        .matrix-dot.checked {
+            background-color: var(--cyan-accent);
+            border-color: var(--cyan-accent);
+            box-shadow: 0 0 8px var(--cyan-glow);
+        }
+
+        .stats-cell {
+            width: 80px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .stat-val-days { color: var(--text-muted); }
+        .stat-val-done { color: var(--cyan-accent); }
+
+
+        /* 2. STATISTIKA VIEW PANELS */
+        .stats-grid-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .stat-mini-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            min-width: 100px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
 
-        .s-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-        }
-        .s-item span:first-child { color: var(--text-gray); }
-        .s-item span:last-child { font-weight: bold; }
+        .card-icon { font-size: 16px; margin-bottom: 2px;}
+        .card-val { font-size: 18px; font-weight: 800; }
+        .card-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600;}
 
-        .habits-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .habit-row {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
-            padding: 12px 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .habit-row.completed {
-            border-color: rgba(127, 255, 0, 0.2);
-            background: rgba(127, 255, 0, 0.01);
-        }
-
-        .habit-meta {
+        .chart-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 12px;
         }
 
-        .h-title {
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .habit-row.completed .h-title {
-            color: var(--text-gray);
-            text-decoration: line-through;
-        }
-
-        .h-time {
-            font-size: 11px;
-            color: var(--lime-neon);
-            background: rgba(127, 255, 0, 0.1);
-            padding: 1px 6px;
-            border-radius: 6px;
-            width: fit-content;
-            font-weight: 700;
-        }
-
-        .btn-action-glow {
-            background: transparent;
-            border: 2px solid var(--lime-neon);
-            color: var(--lime-neon);
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-action-glow.active {
-            background: var(--lime-neon);
-            color: #0c0f16;
-            box-shadow: 0 0 12px var(--lime-neon);
-        }
-
-        .btn-del {
-            background: transparent;
-            border: none;
-            color: var(--text-gray);
-            cursor: pointer;
+        .chart-title {
             font-size: 14px;
-            margin-left: 8px;
-        }
-
-        .timeline-track {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            margin: 15px 5px 5px 5px;
-        }
-        .timeline-track::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: rgba(255,255,255,0.06);
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-        .time-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--text-gray);
-            z-index: 2;
-            position: relative;
-        }
-        .time-dot.active {
-            background: var(--lime-neon);
-            box-shadow: 0 0 8px var(--lime-neon);
-        }
-
-        .rewards-flex {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 5px 0;
-        }
-
-        .badge-card {
-            text-align: center;
-            opacity: 0.3;
-            transition: opacity 0.3s;
-        }
-        .badge-card.unlocked {
-            opacity: 1;
-        }
-        .badge-icon {
-            font-size: 24px;
-            margin-bottom: 2px;
-        }
-        .badge-title {
-            font-size: 10px;
-            color: var(--text-gray);
-        }
-        .badge-card.unlocked .badge-title {
-            color: var(--lime-neon);
-        }
-
-        .trigger-add {
-            background: rgba(255,255,255,0.01);
-            border: 1px dashed var(--glass-border);
-            border-radius: 14px;
-            padding: 12px;
-            text-align: center;
-            font-size: 13px;
-            color: var(--lime-neon);
-            cursor: pointer;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        .form-add {
+        .svg-chart-container {
+            width: 100%;
+            height: 160px;
+            position: relative;
+            margin-top: 10px;
+        }
+
+
+        /* POPUP DIALOG */
+        .form-overlay {
             display: none;
-            flex-direction: column;
-            gap: 10px;
-            background: rgba(0,0,0,0.2);
-            padding: 12px;
-            border-radius: 14px;
-            border: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.8);
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .inp-neon {
-            background: #06080c;
-            border: 1px solid var(--glass-border);
-            padding: 10px;
+        .form-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .inp-flat {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px;
             border-radius: 8px;
             color: #fff;
             font-size: 14px;
             outline: none;
         }
-        .inp-neon:focus { border-color: var(--lime-neon); }
+        .inp-flat:focus { border-color: var(--cyan-accent); }
 
-        .btn-send {
-            background: var(--lime-neon);
-            color: #000;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
+        .form-actions { display: flex; gap: 8px; }
+        .btn-cancel { flex: 1; background: #1e293b; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 600;}
+        .btn-save { flex: 1; background: var(--cyan-accent); color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: 700;}
     </style>
 </head>
 <body>
 
-    <div class="brand-header">
-        <h1 id="user-title">ODATLARIM <span>PRO</span></h1>
-        <p>Intizom & O'sish</p>
+    <div class="top-navbar">
+        <div class="nav-tabs">
+            <button class="tab-btn" onclick="switchView('kunlik')">Kunlik</button>
+            <button class="tab-btn active" id="tab-kalendar" onclick="switchView('kalendar')">Kalendar</button>
+            <button class="tab-btn" id="tab-statistika" onclick="switchView('statistika')">Statistika</button>
+        </div>
+        <button class="add-habit-btn" onclick="openModal()">
+            <span>+</span> Odat qo'shish
+        </button>
     </div>
 
-    <div class="dashboard-layout">
-        <div class="glass-panel">
-            <div class="panel-header">Habit Streak & Progress</div>
-            <div class="stat-flex">
-                <div class="circle-box">
-                    <svg>
-                        <circle class="c-bg" cx="38" cy="38" r="33"></circle>
-                        <circle class="c-fill" id="progress-circle" cx="38" cy="38" r="33" stroke-dasharray="207.34" stroke-dashoffset="207.34"></circle>
-                    </svg>
-                    <div class="circle-inner-text" id="lbl-percent">0%</div>
+    <div id="view-kalendar" class="app-view active-view">
+        <div class="matrix-panel">
+            <div class="matrix-header">
+                <h2>Odatlar jadvali</h2>
+                <div class="month-selector">
+                    <span style="color: var(--text-muted); cursor:pointer;">&lt;</span>
+                    <span id="current-month-lbl">Iyun</span>
+                    <span style="color: var(--text-muted); cursor:pointer;">&gt;</span>
                 </div>
-                <div class="stat-rows">
-                    <div class="s-item"><span>Fokus darajasi:</span><span id="lbl-focus" style="color: var(--lime-neon);">0%</span></div>
-                    <div class="s-item"><span>Bajarildi / Reja:</span><span id="lbl-ratio">0/0</span></div>
-                    <div class="s-item"><span>Kunlik Streak:</span><span>🔥 1 Kun</span></div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-row-head">
+                    <div class="col-habit-name">Odatlar</div>
+                    <div class="col-days-grid" id="days-header-root"></div>
+                    <div class="col-stats-head">
+                        <span>Kun</span>
+                        <span>Bajaril</span>
+                    </div>
                 </div>
+                <div class="habits-list" id="matrix-body-root"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-statistika" class="app-view">
+        <div class="matrix-header" style="margin-top: 4px; margin-bottom: 0;">
+            <h2 style="font-size: 20px;">Odat statistikasi</h2>
+        </div>
+        <p style="color: var(--text-muted); font-size: 12px; margin-top: -6px;">Odatlaringiz bajarilish ko'rsatkichlari</p>
+
+        <div class="stats-grid-row">
+            <div class="stat-mini-card">
+                <span class="card-icon" style="color: var(--cyan-accent);">🎯</span>
+                <span class="card-val" id="st-total-habits">5</span>
+                <span class="card-lbl">Jami odatlar</span>
+            </div>
+            <div class="stat-mini-card">
+                <span class="card-icon" style="color: var(--cyan-accent);">✓</span>
+                <span class="card-val" id="st-today-done">0/5</span>
+                <span class="card-lbl">Bugun bajarildi</span>
+            </div>
+            <div class="stat-mini-card">
+                <span class="card-icon" style="color: var(--card-orange);">🔥</span>
+                <span class="card-val" id="st-week-done">0</span>
+                <span class="card-lbl">Bu hafta bajarildi</span>
+            </div>
+            <div class="stat-mini-card">
+                <span class="card-icon" style="color: var(--card-blue);">⚡</span>
+                <span class="card-val" id="st-week-trend">0%</span>
+                <span class="card-lbl">Haftalik trend</span>
+            </div>
+            <div class="stat-mini-card">
+                <span class="card-icon" style="color: var(--card-purple);">🏅</span>
+                <span class="card-val" id="st-all-done">0</span>
+                <span class="card-lbl">Jami bajarilgan</span>
             </div>
         </div>
 
-        <div class="trigger-add" id="btn-trigger" onclick="toggleForm()">+ YANGI ODAT QO'SHISH</div>
-        <div class="form-add" id="panel-form">
-            <input type="text" id="add-name" class="inp-neon" placeholder="Odat nomi (Masalan: 📚 Kitob o'qish)">
-            <div style="display: flex; gap: 8px;">
-                <input type="time" id="add-time" class="inp-neon" style="flex: 1;" value="08:00">
-                <button class="btn-send" style="flex: 1;" onclick="saveNewHabit()">Saqlash</button>
+        <div class="chart-panel">
+            <span class="chart-title">Haftalik ko'rsatkich</span>
+            <div class="svg-chart-container">
+                <svg width="100%" height="100%" viewBox="0 0 500 150" preserveAspectRatio="none">
+                    <line x1="0" y1="30" x2="500" y2="30" stroke="#1e293b" stroke-dasharray="4"/>
+                    <line x1="0" y1="75" x2="500" y2="75" stroke="#1e293b" stroke-dasharray="4"/>
+                    <line x1="0" y1="120" x2="500" y2="120" stroke="#1e293b"/>
+                    
+                    <path d="M 35 120 L 105 120 L 175 120 L 245 120 L 315 120 L 385 120 L 455 120" 
+                          fill="none" stroke="#10b981" stroke-width="3" id="chart-line-path"/>
+                    
+                    <circle cx="35" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-0"/>
+                    <circle cx="105" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-1"/>
+                    <circle cx="175" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-2"/>
+                    <circle cx="245" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-3"/>
+                    <circle cx="315" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-4"/>
+                    <circle cx="385" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-5"/>
+                    <circle cx="455" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-6"/>
+
+                    <text x="35" y="145" fill="#64748b" font-size="11" text-anchor="middle">Yak</text>
+                    <text x="105" y="145" fill="#64748b" font-size="11" text-anchor="middle">Dush</text>
+                    <text x="175" y="145" fill="#64748b" font-size="11" text-anchor="middle">Sesh</text>
+                    <text x="245" y="145" fill="#64748b" font-size="11" text-anchor="middle">Chor</text>
+                    <text x="315" y="145" fill="#64748b" font-size="11" text-anchor="middle">Pay</text>
+                    <text x="385" y="145" fill="#64748b" font-size="11" text-anchor="middle">Jum</text>
+                    <text x="455" y="145" fill="#64748b" font-size="11" text-anchor="middle">Shan</text>
+                </svg>
             </div>
         </div>
+    </div>
 
-        <div class="glass-panel">
-            <div class="panel-header">
-                <span>Vaqt Rejasi & Odatlar</span>
-                <span id="txt-counter" style="color: var(--lime-neon);">0 / 0</span>
-            </div>
-            
-            <div class="habits-stack" id="habits-root"></div>
-
-            <div style="margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 12px;">
-                <div class="panel-header" style="font-size: 9px; margin-bottom: 6px;">Vaqt Chizig'i (Grafik)</div>
-                <div class="timeline-track" id="timeline-root"></div>
-            </div>
-        </div>
-
-        <div class="glass-panel">
-            <div class="panel-header">Mukofotlar & Erkinlik</div>
-            <div class="rewards-flex">
-                <div class="badge-card" id="badge-1">
-                    <div class="badge-icon">🎯</div>
-                    <div class="badge-title">Boshlanishi</div>
-                </div>
-                <div class="badge-card" id="badge-2">
-                    <div class="badge-icon">⚡</div>
-                    <div class="badge-title">Yarim Reja</div>
-                </div>
-                <div class="badge-card" id="badge-3">
-                    <div class="badge-icon">👑</div>
-                    <div class="badge-title">Chempion</div>
-                </div>
+    <div class="form-overlay" id="modal-form">
+        <div class="form-card">
+            <h3 style="font-size: 16px; font-weight:700;">Yangi odat shakllantirish</h3>
+            <input type="text" id="habit-name-inp" class="inp-flat" placeholder="Odat nomi (Masalan: Ertalab yugurish)">
+            <div class="form-actions">
+                <button class="btn-cancel" onclick="closeModal()">Bekor qilish</button>
+                <button class="btn-save" onclick="createHabitRow()">Qo'shish</button>
             </div>
         </div>
     </div>
@@ -391,151 +440,183 @@
         tg.expand();
         tg.ready();
 
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('user-title').innerHTML = `${tg.initDataUnsafe.user.first_name.toUpperCase()} <span>PRO</span>`;
-        }
-
-        let habits = JSON.parse(localStorage.getItem('ultra_habits_v1')) || [
-            { id: 1, name: "📚 Kitob o'qish", time: "08:00", done: false },
-            { id: 2, name: "🏃‍♂️ Sport / Yugurish", time: "12:30", done: false },
-            { id: 3, name: "💧 Suv ichish", time: "19:00", done: false }
+        // Odatlar bazasi
+        let matrixHabits = JSON.parse(localStorage.getItem('matrix_habits_v3')) || [
+            { id: 1, name: "Ertalab yugurish", history: [1, 2, 4] },
+            { id: 2, name: "10 bet kitob o'qish", history: [2, 3] },
+            { id: 3, name: "Qur'on xatm qilish", history: [1] },
+            { id: 4, name: "Zalga qatnash", history: [3, 4] },
+            { id: 5, name: "2 litr suv ichish", history: [1, 2, 3, 4, 5] }
         ];
 
-        const savedDay = localStorage.getItem('ultra_day_stamp');
-        const currentDay = new Date().toDateString();
-        if (savedDay !== currentDay) {
-            habits.forEach(h => h.done = false);
-            localStorage.setItem('ultra_day_stamp', currentDay);
-            localStorage.setItem('ultra_habits_v1', JSON.stringify(habits));
-        }
-
         function triggerHaptic() {
-            try {
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('success');
-                } else if (navigator.vibrate) {
-                    navigator.vibrate(45);
-                }
-            } catch(e) {}
+            try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
         }
 
-        function toggleForm() {
+        function switchView(viewName) {
             triggerHaptic();
-            const form = document.getElementById('panel-form');
-            const btn = document.getElementById('btn-trigger');
-            if(form.style.display === 'flex') {
-                form.style.display = 'none';
-                btn.innerText = "+ YANGI ODAT QO'SHISH";
-            } else {
-                form.style.display = 'flex';
-                btn.innerText = "✕ BERKITISH";
-                document.getElementById('add-name').focus();
+            document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active-view'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            if(viewName === 'kalendar') {
+                document.getElementById('view-kalendar').classList.add('active-view');
+                document.getElementById('tab-kalendar').classList.add('active');
+            } else if(viewName === 'statistika') {
+                document.getElementById('view-statistika').classList.add('active-view');
+                document.getElementById('tab-statistika').classList.add('active');
+                calculateStats();
             }
         }
 
-        function saveNewHabit() {
-            const nameInp = document.getElementById('add-name');
-            const timeInp = document.getElementById('add-time');
-            if(!nameInp.value.trim()) return;
-
-            habits.push({
-                id: Date.now(),
-                name: nameInp.value.trim(),
-                time: timeInp.value,
-                done: false
-            });
-
-            nameInp.value = '';
-            toggleForm();
-            syncData();
+        function openModal() {
+            triggerHaptic();
+            document.getElementById('modal-form').style.display = 'flex';
+            document.getElementById('habit-name-inp').focus();
         }
 
-        function removeHabit(id) {
-            triggerHaptic();
-            habits = habits.filter(h => h.id !== id);
-            syncData();
+        function closeModal() {
+            document.getElementById('modal-form').style.display = 'none';
+            document.getElementById('habit-name-inp').value = '';
         }
 
-        function toggleStatus(id) {
-            triggerHaptic();
-            const target = habits.find(h => h.id === id);
-            if(target) {
-                target.done = !target.done;
-                syncData();
+        function createHabitRow() {
+            const inp = document.getElementById('habit-name-inp');
+            const name = inp.value.trim();
+            if (!name) return;
 
-                if(target.done) {
-                    const doneCount = habits.filter(h => h.done).length;
-                    const totalCount = habits.length;
-                    const percent = Math.round((doneCount / totalCount) * 100);
-                    
-                    const payload = `${target.name} (Vaqt: ${target.time}) | Status: ${doneCount}/${totalCount} (${percent}%)`;
-                    
-                    setTimeout(() => {
-                        tg.sendData(payload);
-                        tg.close();
-                    }, 500);
+            matrixHabits.push({ id: Date.now(), name: name, history: [] });
+            saveAndRender();
+            closeModal();
+        }
+
+        function deleteHabitRow(id) {
+            triggerHaptic();
+            matrixHabits = matrixHabits.filter(h => h.id !== id);
+            saveAndRender();
+        }
+
+        function toggleDayCheck(habitId, dayNumber) {
+            triggerHaptic();
+            const habit = matrixHabits.find(h => h.id === habitId);
+            if (habit) {
+                const index = habit.history.indexOf(dayNumber);
+                if (index > -1) {
+                    habit.history.splice(index, 1);
+                } else {
+                    habit.history.push(dayNumber);
+                    try {
+                        tg.sendData(`🎯 ${habit.name} | Bajarildi (Kun: ${dayNumber})`);
+                    } catch(e) {}
                 }
+                saveAndRender();
             }
         }
 
-        function syncData() {
-            localStorage.setItem('ultra_habits_v1', JSON.stringify(habits));
-            renderDashboard();
+        function saveAndRender() {
+            localStorage.setItem('matrix_habits_v3', JSON.stringify(matrixHabits));
+            renderMatrixTable();
+            calculateStats();
         }
 
-        function renderDashboard() {
-            const root = document.getElementById('habits-root');
-            const timeline = document.getElementById('timeline-root');
-            root.innerHTML = '';
-            timeline.innerHTML = '';
+        function renderMatrixTable() {
+            const headerRoot = document.getElementById('days-header-root');
+            headerRoot.innerHTML = '';
+            for (let i = 1; i <= 31; i++) {
+                const lbl = document.createElement('div');
+                lbl.className = 'day-num-label';
+                lbl.innerText = i;
+                headerRoot.appendChild(lbl);
+            }
 
-            habits.sort((a,b) => a.time.localeCompare(b.time));
-            let doneCount = 0;
+            const bodyRoot = document.getElementById('matrix-body-root');
+            bodyRoot.innerHTML = '';
 
-            habits.forEach(h => {
-                if(h.done) doneCount++;
+            matrixHabits.forEach(habit => {
+                const row = document.createElement('div');
+                row.className = 'habit-matrix-row';
 
-                const card = document.createElement('div');
-                card.className = `habit-row ${h.done ? 'completed' : ''}`;
-                card.innerHTML = `
-                    <div class="habit-meta">
-                        <span class="h-title">${h.name}</span>
-                        <span class="h-time">${h.time}</span>
-                    </div>
-                    <div style="display:flex; align-items:center;">
-                        <button class="btn-action-glow ${h.done ? 'active' : ''}" onclick="toggleStatus(${h.id})">
-                            ${h.done ? '✓ OK' : 'Bajarish'}
-                        </button>
-                        <button class="btn-del" onclick="removeHabit(${h.id})">🗑️</button>
-                    </div>
-                `;
-                root.appendChild(card);
+                const titleCell = document.createElement('div');
+                titleCell.className = 'habit-title-cell';
+                titleCell.innerHTML = `<span>${habit.name}</span><span class="delete-icon" onclick="deleteHabitRow(${habit.id})">🗑️</span>`;
+                row.appendChild(titleCell);
 
-                const dot = document.createElement('div');
-                dot.className = `time-dot ${h.done ? 'active' : ''}`;
-                timeline.appendChild(dot);
+                const dotsGrid = document.createElement('div');
+                dotsGrid.className = 'dots-grid';
+
+                for (let d = 1; d <= 31; d++) {
+                    const dot = document.createElement('div');
+                    const isChecked = habit.history.includes(d);
+                    dot.className = `matrix-dot ${isChecked ? 'checked' : ''}`;
+                    dot.setAttribute('onclick', `toggleDayCheck(${habit.id}, ${d})`);
+                    dotsGrid.appendChild(dot);
+                }
+                row.appendChild(dotsGrid);
+
+                const statsCell = document.createElement('div');
+                statsCell.className = 'stats-cell';
+                statsCell.innerHTML = `<span class="stat-val-days">31</span><span class="stat-val-done">${habit.history.length}</span>`;
+                row.appendChild(statsCell);
+
+                bodyRoot.appendChild(row);
+            });
+        }
+
+        // STATISTIKANI HISOBLASH VA GRAFIKNI CHIZISH
+        function calculateStats() {
+            const currentDay = new Date().getDate();
+            
+            // 1. Jami Odatlar
+            document.getElementById('st-total-habits').innerText = matrixHabits.length;
+            
+            // 2. Bugun Bajarildi
+            let todayDone = 0;
+            matrixHabits.forEach(h => { if(h.history.includes(currentDay)) todayDone++; });
+            document.getElementById('st-today-done').innerText = `${todayDone}/${matrixHabits.length}`;
+
+            // 3. Jami Bajarilganlar soni (Barcha kunlar yig'indisi)
+            let grandTotal = 0;
+            matrixHabits.forEach(h => grandTotal += h.history.length);
+            document.getElementById('st-all-done').innerText = grandTotal;
+
+            // 4. Haftalik ma'lumotlar simulyatsiyasi (SVG Grafik nuqtalari uchun)
+            // Grafik asosi balandligi 120px (bajarilmaganda 120 da turadi, maksimalda 30 gacha ko'tariladi)
+            let weeklyCounts = [0, 0, 0, 0, 0, 0, 0]; 
+            matrixHabits.forEach(h => {
+                h.history.forEach(day => {
+                    if(day >= 1 && day <= 7) weeklyCounts[day-1]++;
+                });
             });
 
-            const totalCount = habits.length;
-            const percent = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+            let totalWeekDone = weeklyCounts.reduce((a, b) => a + b, 0);
+            document.getElementById('st-week-done').innerText = totalWeekDone;
 
-            document.getElementById('lbl-percent').innerText = percent + "%";
-            document.getElementById('lbl-focus').innerText = percent + "%";
-            document.getElementById('lbl-ratio').innerText = `${doneCount}/${totalCount}`;
-            document.getElementById('txt-counter').innerText = `${doneCount} / ${totalCount}`;
+            // Trend foizi
+            let trend = matrixHabits.length > 0 ? Math.round((totalWeekDone / (matrixHabits.length * 7)) * 100) : 0;
+            document.getElementById('st-week-trend').innerText = trend + "%";
 
-            const circle = document.getElementById('progress-circle');
-            const circumference = 2 * Math.PI * 33;
-            const offset = circumference - (percent / 100) * circumference;
-            circle.style.strokeDasharray = `${circumference} ${circumference}`;
-            circle.style.strokeDashoffset = offset;
-
-            document.getElementById('badge-1').classList.toggle('unlocked', doneCount >= 1);
-            document.getElementById('badge-2').classList.toggle('unlocked', percent >= 50);
-            document.getElementById('badge-3').classList.toggle('unlocked', percent === 100 && totalCount > 0);
+            // SVG Yo'nalish chizig'ini yangilash
+            let points = [];
+            const xCoords = [35, 105, 175, 245, 315, 385, 455];
+            
+            for(let i=0; i<7; i++) {
+                // Balandlikni hisoblash (Odatlar soniga qarab dynamic o'zgaradi)
+                let maxHabits = matrixHabits.length || 1;
+                let ratio = weeklyCounts[i] / maxHabits;
+                let y = 120 - (ratio * 90); // 30px gacha ko'tarilishi mumkin
+                
+                points.push(`${xCoords[i]} ${y}`);
+                
+                let dot = document.getElementById(`dot-${i}`);
+                if(dot) dot.setAttribute('cy', y);
+            }
+            
+            let pathD = "M " + points.join(" L ");
+            document.getElementById('chart-line-path').setAttribute('d', pathD);
         }
 
-        renderDashboard();
+        // Boshlang'ich yuklash
+        renderMatrixTable();
+        calculateStats();
     </script>
 </body>
 </html>
