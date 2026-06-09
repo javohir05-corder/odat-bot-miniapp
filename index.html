@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Odatlar Dashboard PRO</title>
+    <title>Odatlar & Xarajatlar Dashboard PRO</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-dark: #0b111e;
-            --panel-bg: #121a2e;
+            --bg-dark: #080d1a;
+            --sidebar-bg: #0c1324;
+            --panel-bg: #0f192e;
             --border-color: #1e293b;
             --cyan-accent: #10b981; 
             --cyan-glow: rgba(16, 185, 129, 0.25);
@@ -31,11 +32,65 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
-            padding: 12px;
             min-height: 100vh;
             display: flex;
+        }
+
+        /* ------------------ SIDEBAR NAVIGATION ------------------ */
+        .sidebar {
+            width: 75px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
             flex-direction: column;
-            gap: 12px;
+            align-items: center;
+            padding: 20px 0;
+            gap: 20px;
+        }
+
+        .sidebar-logo {
+            font-size: 24px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .side-item {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .side-item span {
+            font-size: 20px;
+        }
+
+        .side-item .tooltip {
+            display: none;
+        }
+
+        .side-item.active {
+            background: #1e293b;
+            color: var(--cyan-accent);
+            box-shadow: inset 3px 0 0 var(--cyan-accent);
+        }
+
+        /* ------------------ MAIN CONTENT AREA ------------------ */
+        .main-container {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            max-height: 100vh;
         }
 
         /* TOP NAVIGATION */
@@ -63,7 +118,6 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         .tab-btn.active {
@@ -80,22 +134,55 @@
             font-weight: 700;
             border-radius: 20px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
-        /* VIEWS CONTROL */
-        .app-view {
+        /* APP SECTIONS */
+        .app-section {
             display: none;
+            flex-direction: column;
+            gap: 14px;
         }
-        .app-view.active-view {
+
+        .app-section.active-section {
+            display: flex;
+        }
+
+        /* 1. KUNLIK VIEW (CHECKLIST) */
+        .daily-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        /* 1. KALENDAR VIEW PANELS */
+        .daily-item {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .daily-info h4 { font-size: 15px; font-weight: 600; }
+        .daily-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        .bajarish-btn {
+            background: transparent;
+            border: 2px solid var(--cyan-accent);
+            color: var(--cyan-accent);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .bajarish-btn.done {
+            background: var(--cyan-accent);
+            color: #000;
+        }
+
+        /* 2. KALENDAR VIEW (MATRIX) */
         .matrix-panel {
             background: var(--panel-bg);
             border-radius: 16px;
@@ -108,25 +195,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
-        .matrix-header h2 {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .month-selector {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .table-container {
-            min-width: 850px;
-        }
+        .table-container { min-width: 850px; }
 
         .table-row-head {
             display: flex;
@@ -136,298 +208,195 @@
             margin-bottom: 10px;
         }
 
-        .col-habit-name {
-            width: 180px;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
+        .col-habit-name { width: 160px; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+        .col-days-grid { flex: 1; display: grid; grid-template-columns: repeat(31, 1fr); gap: 4px; text-align: center; }
+        .day-num-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .col-stats-head { width: 80px; display: flex; justify-content: space-around; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
 
-        .col-days-grid {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(31, 1fr);
-            gap: 4px;
-            text-align: center;
-        }
-
-        .day-num-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .col-stats-head {
-            width: 80px;
-            display: flex;
-            justify-content: space-around;
-            font-size: 10px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .habits-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .habit-matrix-row {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.01);
-            padding: 8px 0;
-            border-radius: 8px;
-        }
-
-        .habit-title-cell {
-            width: 180px;
-            font-size: 14px;
-            font-weight: 600;
-            padding-right: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .delete-icon {
-            font-size: 11px;
-            cursor: pointer;
-            opacity: 0.3;
-            margin-right: 8px;
-        }
+        .habit-matrix-row { display: flex; align-items: center; padding: 6px 0; }
+        .habit-title-cell { width: 160px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; padding-right: 8px;}
+        .delete-icon { cursor: pointer; opacity: 0.2; font-size: 12px; }
         .habit-matrix-row:hover .delete-icon { opacity: 1; }
 
-        .dots-grid {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(31, 1fr);
-            gap: 4px;
-        }
+        .dots-grid { flex: 1; display: grid; grid-template-columns: repeat(31, 1fr); gap: 4px; }
+        .matrix-dot { aspect-ratio: 1; border-radius: 50%; background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06); cursor: pointer; }
+        .matrix-dot.checked { background-color: var(--cyan-accent); border-color: var(--cyan-accent); box-shadow: 0 0 8px var(--cyan-glow); }
+        .stats-cell { width: 80px; display: flex; justify-content: space-around; font-size: 13px; font-weight: 700; }
 
-        .matrix-dot {
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            cursor: pointer;
-        }
+        /* 3. STATISTIKA VIEW PANELS */
+        .stats-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-x: auto; }
+        .stat-mini-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; min-width: 100px; }
+        .card-icon { font-size: 16px; }
+        .card-val { font-size: 18px; font-weight: 800; margin: 4px 0; }
+        .card-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600; }
 
-        .matrix-dot.checked {
-            background-color: var(--cyan-accent);
-            border-color: var(--cyan-accent);
-            box-shadow: 0 0 8px var(--cyan-glow);
-        }
+        .chart-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; }
+        .svg-chart-container { width: 100%; height: 160px; margin-top: 10px; }
 
-        .stats-cell {
-            width: 80px;
-            display: flex;
-            justify-content: space-around;
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .stat-val-days { color: var(--text-muted); }
-        .stat-val-done { color: var(--cyan-accent); }
+        /* 4. TAYMER PANEL */
+        .timer-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .timer-display { font-size: 48px; font-weight: 800; color: var(--cyan-accent); letter-spacing: 2px; }
+        .timer-controls { display: flex; gap: 10px; }
+        .btn-action { background: #1e293b; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
+        /* 5. XARAJATLAR PANEL */
+        .expense-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .expense-row { display: flex; justify-content: space-between; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; font-size: 14px; }
 
-        /* 2. STATISTIKA VIEW PANELS */
-        .stats-grid-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            overflow-x: auto;
-        }
-
-        .stat-mini-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            min-width: 100px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .card-icon { font-size: 16px; margin-bottom: 2px;}
-        .card-val { font-size: 18px; font-weight: 800; }
-        .card-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600;}
-
-        .chart-panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .chart-title {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .svg-chart-container {
-            width: 100%;
-            height: 160px;
-            position: relative;
-            margin-top: 10px;
-        }
-
-
-        /* POPUP DIALOG */
-        .form-overlay {
-            display: none;
-            background: rgba(0,0,0,0.8);
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .form-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 340px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .inp-flat {
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-        }
+        /* 6. SOZLAMALAR PANEL (PROFIL TAHRIRLASH) */
+        .profile-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+        .inp-flat { background: var(--bg-dark); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
         .inp-flat:focus { border-color: var(--cyan-accent); }
 
+        /* POPUP MODAL FORM */
+        .form-overlay { display: none; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        .form-card { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 24px; border-radius: 16px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 14px; }
         .form-actions { display: flex; gap: 8px; }
-        .btn-cancel { flex: 1; background: #1e293b; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 600;}
-        .btn-save { flex: 1; background: var(--cyan-accent); color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: 700;}
+        .btn-cancel { flex: 1; background: #1e293b; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer;}
+        .btn-save { flex: 1; background: var(--cyan-accent); color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer;}
     </style>
 </head>
 <body>
 
-    <div class="top-navbar">
-        <div class="nav-tabs">
-            <button class="tab-btn" onclick="switchView('kunlik')">Kunlik</button>
-            <button class="tab-btn active" id="tab-kalendar" onclick="switchView('kalendar')">Kalendar</button>
-            <button class="tab-btn" id="tab-statistika" onclick="switchView('statistika')">Statistika</button>
-        </div>
-        <button class="add-habit-btn" onclick="openModal()">
-            <span>+</span> Odat qo'shish
-        </button>
+    <div class="sidebar">
+        <div class="sidebar-logo">⚡</div>
+        <div class="side-item" id="side-best" onclick="clickSidebar('best')"><span>🏆</span></div>
+        <div class="side-item active" id="side-stats" onclick="clickSidebar('stats')"><span>📊</span></div>
+        <div class="side-item" id="side-timer" onclick="clickSidebar('timer')"><span>⏱️</span></div>
+        <div class="side-item" id="side-expenses" onclick="clickSidebar('expenses')"><span>💳</span></div>
+        <div class="side-item" id="side-settings" onclick="clickSidebar('settings')"><span>⚙️</span></div>
     </div>
 
-    <div id="view-kalendar" class="app-view active-view">
-        <div class="matrix-panel">
-            <div class="matrix-header">
-                <h2>Odatlar jadvali</h2>
-                <div class="month-selector">
-                    <span style="color: var(--text-muted); cursor:pointer;">&lt;</span>
-                    <span id="current-month-lbl">Iyun</span>
-                    <span style="color: var(--text-muted); cursor:pointer;">&gt;</span>
+    <div class="main-container">
+        
+        <div class="top-navbar" id="global-top-navbar">
+            <div class="nav-tabs">
+                <button class="tab-btn" id="tab-kunlik" onclick="switchTab('kunlik')">Kunlik</button>
+                <button class="tab-btn active" id="tab-kalendar" onclick="switchTab('kalendar')">Kalendar</button>
+                <button class="tab-btn" id="tab-statistika" onclick="switchTab('statistika')">Statistika</button>
+            </div>
+            <button class="add-habit-btn" onclick="openModal()">+ Odat qo'shish</button>
+        </div>
+
+        <div id="sec-habits-group" class="app-section active-section">
+            
+            <div id="sub-kunlik" style="display: none;" class="daily-list"></div>
+
+            <div id="sub-kalendar" class="matrix-panel">
+                <div class="matrix-header">
+                    <h3 style="font-size: 16px;">Odatlar jadvali</h3>
+                    <div style="font-size: 13px; color: var(--text-muted);">May &lt; Iyun &gt;</div>
+                </div>
+                <div class="table-container">
+                    <div class="table-row-head">
+                        <div class="col-habit-name">Odatlar</div>
+                        <div class="col-days-grid" id="days-header-root"></div>
+                        <div class="col-stats-head"><span>Kun</span><span>Bajaril</span></div>
+                    </div>
+                    <div class="habits-list" id="matrix-body-root"></div>
                 </div>
             </div>
 
-            <div class="table-container">
-                <div class="table-row-head">
-                    <div class="col-habit-name">Odatlar</div>
-                    <div class="col-days-grid" id="days-header-root"></div>
-                    <div class="col-stats-head">
-                        <span>Kun</span>
-                        <span>Bajaril</span>
+            <div id="sub-statistika" style="display: none;" class="app-section active-section">
+                <div class="stats-grid-row">
+                    <div class="stat-mini-card">
+                        <div class="card-icon" style="color: var(--cyan-accent);">🎯</div>
+                        <div class="card-val" id="st-total-habits">0</div>
+                        <div class="card-lbl">Jami odatlar</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="card-icon" style="color: var(--cyan-accent);">✓</div>
+                        <div class="card-val" id="st-today-done">0/0</div>
+                        <div class="card-lbl">Bugun bajarildi</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="card-icon" style="color: var(--card-orange);">🔥</div>
+                        <div class="card-val" id="st-week-done">0</div>
+                        <div class="card-lbl">Bu hafta bajarildi</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="card-icon" style="color: var(--card-blue);">⚡</div>
+                        <div class="card-val" id="st-week-trend">0%</div>
+                        <div class="card-lbl">Haftalik trend</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="card-icon" style="color: var(--card-purple);">🏅</div>
+                        <div class="card-val" id="st-all-done">0</div>
+                        <div class="card-lbl">Jami bajarilgan</div>
                     </div>
                 </div>
-                <div class="habits-list" id="matrix-body-root"></div>
-            </div>
-        </div>
-    </div>
 
-    <div id="view-statistika" class="app-view">
-        <div class="matrix-header" style="margin-top: 4px; margin-bottom: 0;">
-            <h2 style="font-size: 20px;">Odat statistikasi</h2>
-        </div>
-        <p style="color: var(--text-muted); font-size: 12px; margin-top: -6px;">Odatlaringiz bajarilish ko'rsatkichlari</p>
-
-        <div class="stats-grid-row">
-            <div class="stat-mini-card">
-                <span class="card-icon" style="color: var(--cyan-accent);">🎯</span>
-                <span class="card-val" id="st-total-habits">5</span>
-                <span class="card-lbl">Jami odatlar</span>
-            </div>
-            <div class="stat-mini-card">
-                <span class="card-icon" style="color: var(--cyan-accent);">✓</span>
-                <span class="card-val" id="st-today-done">0/5</span>
-                <span class="card-lbl">Bugun bajarildi</span>
-            </div>
-            <div class="stat-mini-card">
-                <span class="card-icon" style="color: var(--card-orange);">🔥</span>
-                <span class="card-val" id="st-week-done">0</span>
-                <span class="card-lbl">Bu hafta bajarildi</span>
-            </div>
-            <div class="stat-mini-card">
-                <span class="card-icon" style="color: var(--card-blue);">⚡</span>
-                <span class="card-val" id="st-week-trend">0%</span>
-                <span class="card-lbl">Haftalik trend</span>
-            </div>
-            <div class="stat-mini-card">
-                <span class="card-icon" style="color: var(--card-purple);">🏅</span>
-                <span class="card-val" id="st-all-done">0</span>
-                <span class="card-lbl">Jami bajarilgan</span>
+                <div class="chart-panel">
+                    <span style="font-size: 14px; font-weight:700;">Haftalik ko'rsatkich</span>
+                    <div class="svg-chart-container">
+                        <svg width="100%" height="100%" viewBox="0 0 500 150" preserveAspectRatio="none">
+                            <line x1="0" y1="30" x2="500" y2="30" stroke="#1e293b" stroke-dasharray="3"/>
+                            <line x1="0" y1="75" x2="500" y2="75" stroke="#1e293b" stroke-dasharray="3"/>
+                            <line x1="0" y1="120" x2="500" y2="120" stroke="#1e293b"/>
+                            <path d="M 35 120 L 105 120 L 175 120 L 245 120 L 315 120 L 385 120 L 455 120" fill="none" stroke="#10b981" stroke-width="3" id="chart-line-path"/>
+                            <circle cx="35" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-0"/>
+                            <circle cx="105" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-1"/>
+                            <circle cx="175" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-2"/>
+                            <circle cx="245" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-3"/>
+                            <circle cx="315" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-4"/>
+                            <circle cx="385" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-5"/>
+                            <circle cx="455" cy="120" r="5" fill="#0f192e" stroke="#10b981" stroke-width="3" id="dot-6"/>
+                            <text x="35" y="142" fill="#64748b" font-size="11" text-anchor="middle">Yak</text>
+                            <text x="105" y="142" fill="#64748b" font-size="11" text-anchor="middle">Dush</text>
+                            <text x="175" y="142" fill="#64748b" font-size="11" text-anchor="middle">Sesh</text>
+                            <text x="245" y="142" fill="#64748b" font-size="11" text-anchor="middle">Chor</text>
+                            <text x="315" y="142" fill="#64748b" font-size="11" text-anchor="middle">Pay</text>
+                            <text x="385" y="142" fill="#64748b" font-size="11" text-anchor="middle">Jum</text>
+                            <text x="455" y="142" fill="#64748b" font-size="11" text-anchor="middle">Shan</text>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="chart-panel">
-            <span class="chart-title">Haftalik ko'rsatkich</span>
-            <div class="svg-chart-container">
-                <svg width="100%" height="100%" viewBox="0 0 500 150" preserveAspectRatio="none">
-                    <line x1="0" y1="30" x2="500" y2="30" stroke="#1e293b" stroke-dasharray="4"/>
-                    <line x1="0" y1="75" x2="500" y2="75" stroke="#1e293b" stroke-dasharray="4"/>
-                    <line x1="0" y1="120" x2="500" y2="120" stroke="#1e293b"/>
-                    
-                    <path d="M 35 120 L 105 120 L 175 120 L 245 120 L 315 120 L 385 120 L 455 120" 
-                          fill="none" stroke="#10b981" stroke-width="3" id="chart-line-path"/>
-                    
-                    <circle cx="35" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-0"/>
-                    <circle cx="105" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-1"/>
-                    <circle cx="175" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-2"/>
-                    <circle cx="245" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-3"/>
-                    <circle cx="315" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-4"/>
-                    <circle cx="385" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-5"/>
-                    <circle cx="455" cy="120" r="5" fill="#121a2e" stroke="#10b981" stroke-width="3" id="dot-6"/>
-
-                    <text x="35" y="145" fill="#64748b" font-size="11" text-anchor="middle">Yak</text>
-                    <text x="105" y="145" fill="#64748b" font-size="11" text-anchor="middle">Dush</text>
-                    <text x="175" y="145" fill="#64748b" font-size="11" text-anchor="middle">Sesh</text>
-                    <text x="245" y="145" fill="#64748b" font-size="11" text-anchor="middle">Chor</text>
-                    <text x="315" y="145" fill="#64748b" font-size="11" text-anchor="middle">Pay</text>
-                    <text x="385" y="145" fill="#64748b" font-size="11" text-anchor="middle">Jum</text>
-                    <text x="455" y="145" fill="#64748b" font-size="11" text-anchor="middle">Shan</text>
-                </svg>
+        <div id="sec-best" class="app-section">
+            <div class="timer-card">
+                <h2>🏆 Eng Yaxshi Natijalar paneli</h2>
+                <p style="color: var(--text-muted);">Sizning barcha mukofotlaringiz va eng yuqori rekord nuqtalaringiz shu yerda hisoblanadi.</p>
             </div>
         </div>
+
+        <div id="sec-timer" class="app-section">
+            <div class="timer-card">
+                <h3>⏱️ Fokus Taymeri</h3>
+                <div class="timer-display" id="timer-text">25:00</div>
+                <div class="timer-controls">
+                    <button class="btn-action" onclick="toggleTimer()">Start</button>
+                    <button class="btn-action" onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec-expenses" class="app-section">
+            <div class="expense-card">
+                <h3>💳 Moliyaviy Xarajatlar</h3>
+                <div class="expense-row"><span>Tushlik (Kafeda)</span><span style="color: var(--card-orange); font-weight:700;">-45,000 UZS</span></div>
+                <div class="expense-row"><span>Yandeks Taksi</span><span style="color: var(--card-orange); font-weight:700;">-18,000 UZS</span></div>
+                <div class="expense-row"><span>Kitob xaridi</span><span style="color: var(--card-orange); font-weight:700;">-65,000 UZS</span></div>
+            </div>
+        </div>
+
+        <div id="sec-settings" class="app-section">
+            <div class="profile-card">
+                <h3>⚙️ Profilni tahrirlash</h3>
+                <p style="color: var(--text-muted); font-size:12px;">Telegram profilingiz ma'lumotlarini shu yerda yangilang.</p>
+                <input type="text" id="prof-name" class="inp-flat" placeholder="Ismingiz" value="Foydalanuvchi">
+                <input type="text" id="prof-bio" class="inp-flat" placeholder="Sarlavha (Bio)" value="Intizom va O'sish">
+                <button class="btn-save" style="margin-top: 6px;" onclick="saveProfile()">Profilni Saqlash</button>
+            </div>
+        </div>
+
     </div>
 
     <div class="form-overlay" id="modal-form">
         <div class="form-card">
-            <h3 style="font-size: 16px; font-weight:700;">Yangi odat shakllantirish</h3>
-            <input type="text" id="habit-name-inp" class="inp-flat" placeholder="Odat nomi (Masalan: Ertalab yugurish)">
+            <h3>Yangi odat qo'shish</h3>
+            <input type="text" id="habit-name-inp" class="inp-flat" placeholder="Odat nomi">
             <div class="form-actions">
                 <button class="btn-cancel" onclick="closeModal()">Bekor qilish</button>
                 <button class="btn-save" onclick="createHabitRow()">Qo'shish</button>
@@ -437,186 +406,184 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
+        tg.expand(); tg.ready();
 
-        // Odatlar bazasi
-        let matrixHabits = JSON.parse(localStorage.getItem('matrix_habits_v3')) || [
-            { id: 1, name: "Ertalab yugurish", history: [1, 2, 4] },
+        let habits = JSON.parse(localStorage.getItem('habits_matrix_v4')) || [
+            { id: 1, name: "Ertalab yugurish", history: [1, 2] },
             { id: 2, name: "10 bet kitob o'qish", history: [2, 3] },
-            { id: 3, name: "Qur'on xatm qilish", history: [1] },
-            { id: 4, name: "Zalga qatnash", history: [3, 4] },
-            { id: 5, name: "2 litr suv ichish", history: [1, 2, 3, 4, 5] }
+            { id: 3, name: "2 litr suv ichish", history: [1, 2, 3] }
         ];
 
         function triggerHaptic() {
             try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
         }
 
-        function switchView(viewName) {
+        // SIDEBAR CLICK
+        function clickSidebar(target) {
             triggerHaptic();
-            document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active-view'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active-section'));
+            
+            document.getElementById('global-top-navbar').style.display = 'none';
 
-            if(viewName === 'kalendar') {
-                document.getElementById('view-kalendar').classList.add('active-view');
-                document.getElementById('tab-kalendar').classList.add('active');
-            } else if(viewName === 'statistika') {
-                document.getElementById('view-statistika').classList.add('active-view');
-                document.getElementById('tab-statistika').classList.add('active');
-                calculateStats();
+            if(target === 'stats') {
+                document.getElementById('side-stats').classList.add('active');
+                document.getElementById('sec-habits-group').classList.add('active-section');
+                document.getElementById('global-top-navbar').style.display = 'flex';
+                switchTab('kalendar');
+            } else {
+                document.getElementById(`side-${target}`).classList.add('active');
+                document.getElementById(`sec-${target}`).classList.add('active-section');
             }
         }
 
-        function openModal() {
+        // TOP NAV TABS CLICK
+        function switchTab(tabName) {
             triggerHaptic();
-            document.getElementById('modal-form').style.display = 'flex';
-            document.getElementById('habit-name-inp').focus();
+            document.getElementById('sub-kunlik').style.display = 'none';
+            document.getElementById('sub-kalendar').style.display = 'none';
+            document.getElementById('sub-statistika').style.display = 'none';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`sub-${tabName}`).style.display = tabName === 'kunlik' ? 'flex' : 'block';
+            
+            if(tabName === 'statistika') calculateStats();
+            if(tabName === 'kunlik') renderDailyChecklist();
         }
 
-        function closeModal() {
-            document.getElementById('modal-form').style.display = 'none';
-            document.getElementById('habit-name-inp').value = '';
-        }
+        function openModal() { triggerHaptic(); document.getElementById('modal-form').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal-form').style.display = 'none'; document.getElementById('habit-name-inp').value = ''; }
 
         function createHabitRow() {
-            const inp = document.getElementById('habit-name-inp');
-            const name = inp.value.trim();
+            const name = document.getElementById('habit-name-inp').value.trim();
             if (!name) return;
-
-            matrixHabits.push({ id: Date.now(), name: name, history: [] });
-            saveAndRender();
-            closeModal();
+            habits.push({ id: Date.now(), name: name, history: [] });
+            saveAndRender(); closeModal();
         }
 
-        function deleteHabitRow(id) {
-            triggerHaptic();
-            matrixHabits = matrixHabits.filter(h => h.id !== id);
-            saveAndRender();
-        }
+        function deleteHabitRow(id) { triggerHaptic(); habits = habits.filter(h => h.id !== id); saveAndRender(); }
 
         function toggleDayCheck(habitId, dayNumber) {
             triggerHaptic();
-            const habit = matrixHabits.find(h => h.id === habitId);
+            const habit = habits.find(h => h.id === habitId);
             if (habit) {
-                const index = habit.history.indexOf(dayNumber);
-                if (index > -1) {
-                    habit.history.splice(index, 1);
-                } else {
+                const idx = habit.history.indexOf(dayNumber);
+                if (idx > -1) habit.history.splice(idx, 1);
+                else {
                     habit.history.push(dayNumber);
-                    try {
-                        tg.sendData(`🎯 ${habit.name} | Bajarildi (Kun: ${dayNumber})`);
-                    } catch(e) {}
+                    try { tg.sendData(`🎯 ${habit.name} | Bajarildi (Kun: ${dayNumber})`); } catch(e){}
                 }
                 saveAndRender();
             }
         }
 
         function saveAndRender() {
-            localStorage.setItem('matrix_habits_v3', JSON.stringify(matrixHabits));
+            localStorage.setItem('habits_matrix_v4', JSON.stringify(habits));
             renderMatrixTable();
+            renderDailyChecklist();
             calculateStats();
         }
 
-        function renderMatrixTable() {
-            const headerRoot = document.getElementById('days-header-root');
-            headerRoot.innerHTML = '';
-            for (let i = 1; i <= 31; i++) {
-                const lbl = document.createElement('div');
-                lbl.className = 'day-num-label';
-                lbl.innerText = i;
-                headerRoot.appendChild(lbl);
-            }
-
-            const bodyRoot = document.getElementById('matrix-body-root');
-            bodyRoot.innerHTML = '';
-
-            matrixHabits.forEach(habit => {
-                const row = document.createElement('div');
-                row.className = 'habit-matrix-row';
-
-                const titleCell = document.createElement('div');
-                titleCell.className = 'habit-title-cell';
-                titleCell.innerHTML = `<span>${habit.name}</span><span class="delete-icon" onclick="deleteHabitRow(${habit.id})">🗑️</span>`;
-                row.appendChild(titleCell);
-
-                const dotsGrid = document.createElement('div');
-                dotsGrid.className = 'dots-grid';
-
-                for (let d = 1; d <= 31; d++) {
-                    const dot = document.createElement('div');
-                    const isChecked = habit.history.includes(d);
-                    dot.className = `matrix-dot ${isChecked ? 'checked' : ''}`;
-                    dot.setAttribute('onclick', `toggleDayCheck(${habit.id}, ${d})`);
-                    dotsGrid.appendChild(dot);
-                }
-                row.appendChild(dotsGrid);
-
-                const statsCell = document.createElement('div');
-                statsCell.className = 'stats-cell';
-                statsCell.innerHTML = `<span class="stat-val-days">31</span><span class="stat-val-done">${habit.history.length}</span>`;
-                row.appendChild(statsCell);
-
-                bodyRoot.appendChild(row);
+        function renderDailyChecklist() {
+            const currentDay = new Date().getDate();
+            const root = document.getElementById('sub-kunlik');
+            root.innerHTML = '';
+            habits.forEach(h => {
+                const isDone = h.history.includes(currentDay);
+                const item = document.createElement('div');
+                item.className = 'daily-item';
+                item.innerHTML = `
+                    <div class="daily-info"><h4>${h.name}</h4><p>${isDone ? 'Bugun bajarildi ✨' : 'Hali bajarilmadi'}</p></div>
+                    <button class="bajarish-btn ${isDone ? 'done' : ''}" onclick="toggleDayCheck(${h.id}, ${currentDay})">${isDone ? '✓ Bajarildi' : 'Bajarish'}</button>
+                `;
+                root.appendChild(item);
             });
         }
 
-        // STATISTIKANI HISOBLASH VA GRAFIKNI CHIZISH
+        function renderMatrixTable() {
+            const header = document.getElementById('days-header-root'); header.innerHTML = '';
+            for (let i = 1; i <= 31; i++) { const l = document.createElement('div'); l.className = 'day-num-label'; l.innerText = i; header.appendChild(l); }
+
+            const body = document.getElementById('matrix-body-root'); body.innerHTML = '';
+            habits.forEach(habit => {
+                const row = document.createElement('div'); row.className = 'habit-matrix-row';
+                const title = document.createElement('div'); title.className = 'habit-title-cell';
+                title.innerHTML = `<span>${habit.name}</span><span class="delete-icon" onclick="deleteHabitRow(${habit.id})">🗑️</span>`;
+                row.appendChild(title);
+
+                const grid = document.createElement('div'); grid.className = 'dots-grid';
+                for (let d = 1; d <= 31; d++) {
+                    const dot = document.createElement('div'); dot.className = `matrix-dot ${habit.history.includes(d) ? 'checked' : ''}`;
+                    dot.setAttribute('onclick', `toggleDayCheck(${habit.id}, ${d})`);
+                    grid.appendChild(dot);
+                }
+                row.appendChild(grid);
+
+                const stat = document.createElement('div'); stat.className = 'stats-cell';
+                stat.innerHTML = `<span style="color:var(--text-muted)">31</span><span style="color:var(--cyan-accent)">${habit.history.length}</span>`;
+                row.appendChild(stat);
+                body.appendChild(row);
+            });
+        }
+
         function calculateStats() {
             const currentDay = new Date().getDate();
+            document.getElementById('st-total-habits').innerText = habits.length;
             
-            // 1. Jami Odatlar
-            document.getElementById('st-total-habits').innerText = matrixHabits.length;
-            
-            // 2. Bugun Bajarildi
-            let todayDone = 0;
-            matrixHabits.forEach(h => { if(h.history.includes(currentDay)) todayDone++; });
-            document.getElementById('st-today-done').innerText = `${todayDone}/${matrixHabits.length}`;
+            let todayDone = 0; habits.forEach(h => { if(h.history.includes(currentDay)) todayDone++; });
+            document.getElementById('st-today-done').innerText = `${todayDone}/${habits.length}`;
 
-            // 3. Jami Bajarilganlar soni (Barcha kunlar yig'indisi)
-            let grandTotal = 0;
-            matrixHabits.forEach(h => grandTotal += h.history.length);
+            let grandTotal = 0; habits.forEach(h => grandTotal += h.history.length);
             document.getElementById('st-all-done').innerText = grandTotal;
 
-            // 4. Haftalik ma'lumotlar simulyatsiyasi (SVG Grafik nuqtalari uchun)
-            // Grafik asosi balandligi 120px (bajarilmaganda 120 da turadi, maksimalda 30 gacha ko'tariladi)
-            let weeklyCounts = [0, 0, 0, 0, 0, 0, 0]; 
-            matrixHabits.forEach(h => {
-                h.history.forEach(day => {
-                    if(day >= 1 && day <= 7) weeklyCounts[day-1]++;
-                });
-            });
-
+            let weeklyCounts = [0, 0, 0, 0, 0, 0, 0];
+            habits.forEach(h => { h.history.forEach(day => { if(day >= 1 && day <= 7) weeklyCounts[day-1]++; }); });
             let totalWeekDone = weeklyCounts.reduce((a, b) => a + b, 0);
             document.getElementById('st-week-done').innerText = totalWeekDone;
 
-            // Trend foizi
-            let trend = matrixHabits.length > 0 ? Math.round((totalWeekDone / (matrixHabits.length * 7)) * 100) : 0;
+            let trend = habits.length > 0 ? Math.round((totalWeekDone / (habits.length * 7)) * 100) : 0;
             document.getElementById('st-week-trend').innerText = trend + "%";
 
-            // SVG Yo'nalish chizig'ini yangilash
-            let points = [];
-            const xCoords = [35, 105, 175, 245, 315, 385, 455];
-            
+            let points = []; const xCoords = [35, 105, 175, 245, 315, 385, 455];
             for(let i=0; i<7; i++) {
-                // Balandlikni hisoblash (Odatlar soniga qarab dynamic o'zgaradi)
-                let maxHabits = matrixHabits.length || 1;
-                let ratio = weeklyCounts[i] / maxHabits;
-                let y = 120 - (ratio * 90); // 30px gacha ko'tarilishi mumkin
-                
+                let m = habits.length || 1;
+                let y = 120 - ((weeklyCounts[i] / m) * 90);
                 points.push(`${xCoords[i]} ${y}`);
-                
-                let dot = document.getElementById(`dot-${i}`);
-                if(dot) dot.setAttribute('cy', y);
+                let d = document.getElementById(`dot-${i}`); if(d) d.setAttribute('cy', y);
             }
-            
-            let pathD = "M " + points.join(" L ");
-            document.getElementById('chart-line-path').setAttribute('d', pathD);
+            document.getElementById('chart-line-path').setAttribute('d', "M " + points.join(" L "));
         }
 
-        // Boshlang'ich yuklash
+        // TAYMER LOGIKASI
+        let timer, timeLeft = 1500, isRunning = false;
+        function toggleTimer() {
+            triggerHaptic();
+            if(isRunning) { clearInterval(timer); isRunning = false; }
+            else {
+                isRunning = true;
+                timer = setInterval(() => {
+                    if(timeLeft <= 0) { clearInterval(timer); isRunning = false; }
+                    else { timeLeft--; updateTimerDisplay(); }
+                }, 1000);
+            }
+        }
+        function resetTimer() { triggerHaptic(); clearInterval(timer); isRunning = false; timeLeft = 1500; updateTimerDisplay(); }
+        function updateTimerDisplay() {
+            let m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+            document.getElementById('timer-text').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        }
+
+        // PROFIL TAHRIRLASH SAQLASH
+        function saveProfile() {
+            triggerHaptic();
+            const name = document.getElementById('prof-name').value;
+            alert("Profil muvaffaqiyatli saqlandi: " + name);
+        }
+
+        // INITIAL START
         renderMatrixTable();
-        calculateStats();
+        switchTab('kalendar');
     </script>
 </body>
 </html>
